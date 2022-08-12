@@ -1,7 +1,13 @@
 import { Box, Container, debounce, Fab } from "@mui/material";
 import axios from "axios";
 import React, { useCallback } from "react";
-import { AddressModal, EmptyState, FloatingActionButton, Loader, SearchBox } from "./components";
+import {
+  AddressModal,
+  EmptyState,
+  FloatingActionButton,
+  Loader,
+  SearchBox,
+} from "./components";
 
 const App = () => {
   const [addresses, setAddresses] = React.useState([]);
@@ -28,7 +34,7 @@ const App = () => {
 
   const addAddress = () => {
     setOpenModal(true);
-  }
+  };
 
   console.log(addresses);
   return (
@@ -42,12 +48,12 @@ const App = () => {
         height: "100vh",
       }}
       maxWidth="sm"
-      
     >
       <SearchBox
         options={addresses}
         loading={loading}
         onChange={onInputChange}
+        label={loading ? "Loading..." : "Search Address"}
       />
       <Box marginTop={8}>
         {loading ? (
@@ -56,9 +62,8 @@ const App = () => {
           <EmptyState message="It's kinda lonely here 😢" />
         )}
       </Box>
-        <AddressModal open={openModal} setOpenModal={setOpenModal}/>
-      <FloatingActionButton onClick={addAddress}/>
-
+      <AddressModal open={openModal} setOpenModal={setOpenModal} />
+      <FloatingActionButton onClick={addAddress} />
     </Container>
   );
 };

@@ -4,8 +4,9 @@ interface ISearchBoxProps {
   options: string[];
   loading?: boolean;
   onChange: (value: string) => void;
+  label: string
 }
-const SearchBox = ({ options, loading, onChange }: ISearchBoxProps) => {
+const SearchBox = ({ options, loading, onChange, label }: ISearchBoxProps) => {
   return (
     <Autocomplete
       disablePortal
@@ -18,7 +19,7 @@ const SearchBox = ({ options, loading, onChange }: ISearchBoxProps) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Movie"
+          label={label}
           onChange={(e) => onChange(e.target.value)}
         />
       )}
