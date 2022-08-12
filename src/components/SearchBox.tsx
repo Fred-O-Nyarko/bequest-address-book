@@ -6,8 +6,10 @@ interface ISearchBoxProps {
   loading?: boolean;
   onChange: any;
   setFieldValue?:  any;
+  getError?: (key: string) => any;
   label: string;
   inputName?: string;
+  required?: boolean;
 }
 const SearchBox = ({
   options,
@@ -16,6 +18,8 @@ const SearchBox = ({
   label,
   inputName = "",
   setFieldValue,
+  getError=() => {},
+  required = false,
 }: ISearchBoxProps) => {
   console.log(options);
   
@@ -34,6 +38,8 @@ const SearchBox = ({
           label={label}
           name={inputName}
           onChange={onChange}
+          required={required}
+          error={getError(inputName)? true : false}
         />
       )}
     />

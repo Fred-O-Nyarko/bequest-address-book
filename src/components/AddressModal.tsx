@@ -8,7 +8,6 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { useState } from "react";
 import { useAddressForm } from "../hooks/useAddressForm";
 import SearchBox from "./SearchBox";
 
@@ -25,7 +24,7 @@ const AddressModal = ({
   setOpenModal,
   onSearch,
   options,
-  loading
+  loading,
 }: IAddressModalProps) => {
   const handleClose = () => {
     setOpenModal(false);
@@ -35,13 +34,14 @@ const AddressModal = ({
     handleBlur,
     handleChange,
     onSubmit,
-    values,
     setFieldValue,
     getError,
     resetForm,
+    errors,
   } = useAddressForm();
 
   const onAdd = () => {
+    if (errors) return;
     resetForm();
     setOpenModal(false);
     onSubmit();
@@ -73,7 +73,8 @@ const AddressModal = ({
               onChange={handleChange}
               onBlur={handleBlur}
               required
-              error={getError("lineOne")}
+              error={!!getError("lineOne")}
+              helperText={getError("lineOne")}
             />
           </Grid>
           <Grid item xs={12}>
@@ -111,7 +112,8 @@ const AddressModal = ({
               onChange={handleChange}
               onBlur={handleBlur}
               required
-              error={getError("town")}
+              error={!!getError("town")}
+              helperText={getError("town")}
             />
           </Grid>
           <Grid item xs={12}>
@@ -125,7 +127,8 @@ const AddressModal = ({
               onChange={handleChange}
               onBlur={handleBlur}
               required
-              error={getError("postCode")}
+              error={!!getError("postCode")}
+              helperText={getError("postCode")}
             />
           </Grid>
           <Grid item xs={12}>
@@ -136,6 +139,8 @@ const AddressModal = ({
               label="Country"
               inputName="country"
               loading={loading}
+              required
+              getError={getError}
             />
           </Grid>
         </Grid>

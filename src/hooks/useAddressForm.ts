@@ -8,6 +8,7 @@ export function useAddressForm() {
     lineOne: yup.string().required("Line one is required"),
     lineTwo: yup.string().notRequired(),
     lineThree: yup.string().notRequired(),
+    town: yup.string().required("Town is required"),
     postCode: yup.string().required("Postcode is required"),
     country: yup.string().required("Country is required"),
   });
