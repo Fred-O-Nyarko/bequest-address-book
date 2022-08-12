@@ -13,8 +13,9 @@ const App = () => {
   const [addresses, setAddresses] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
+  const [options, setOptions] = React.useState([]);
 
-  const handleChange = (value: string) => {
+  const fetchData = (value: string) => {
     setLoading(true);
     axios
       .get(
@@ -30,10 +31,26 @@ const App = () => {
       });
   };
 
-  const onInputChange = useCallback(debounce(handleChange, 1000), []);
+  const onInputChange = useCallback(debounce(fetchData, 1000), []);
 
-  const addAddress = () => {
-    setOpenModal(true);
+  const getCounties = (value: React.ChangeEvent<Element>) => {
+    setLoading(true);
+    axios
+      .post(
+        `https://api.getAddress.io/typeahead/${value}?api-key=5LOTLJcma065xnWNvF4Bbg36195`,
+        {
+          search: ["country"],
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setLoading(false);
+        setOptions(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   console.log(addresses);
@@ -52,7 +69,7 @@ const App = () => {
       <SearchBox
         options={addresses}
         loading={loading}
-        onChange={onInputChange}
+        onChange={() => console.log("here")}
         label={loading ? "Loading..." : "Search Address"}
       />
       <Box marginTop={8}>
@@ -62,8 +79,16 @@ const App = () => {
           <EmptyState message="It's kinda lonely here 😢" />
         )}
       </Box>
-      <AddressModal open={openModal} setOpenModal={setOpenModal} />
-      <FloatingActionButton onClick={addAddress} />
+      {openModal && (
+        <AddressModal
+          open={openModal}
+          setOpenModal={setOpenModal}
+          onSearch={getCounties}
+          options={options}
+          loading={loading}
+        />
+      )}
+      <FloatingActionButton onClick={() => setOpenModal(true)} />
     </Container>
   );
 };

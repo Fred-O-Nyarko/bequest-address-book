@@ -1,13 +1,7 @@
 import * as yup from "yup";
-import { useFormik } from "formik";
+import { getIn, useFormik } from "formik";
+import { IFormValues } from "../shared/types";
 
-interface IFormValues {
-  lineOne: string;
-  lineTwo?: string;
-  lineThree?: string;
-  postcode: string;
-  country: string;
-}
 
 export function useAddressForm() {
   const validationSchema = yup.object({
@@ -23,20 +17,26 @@ export function useAddressForm() {
       lineOne: "",
       lineTwo: "",
       lineThree: "",
-      postcode: "",
+      postCode: "",
       country: "",
     },
     validationSchema,
     onSubmit: onSubmit,
   });
 
-  const {values, handleBlur, handleChange, isSubmitting, errors} = form
+  
+  const { values, handleBlur, handleChange, isSubmitting, errors, setFieldValue, touched, resetForm } = form;
+  
 
-  function onSubmit(){
-    console.log(values);
-    
+  function getError(key: string) {
+    const _touched = getIn(touched, key);
+    const error = getIn(errors, key);
+    return _touched && error ? error : undefined;
   }
 
+  function onSubmit() {
+    console.log(values);
+  }
 
   return {
     values,
@@ -44,6 +44,9 @@ export function useAddressForm() {
     handleBlur,
     handleChange,
     errors,
-    onSubmit
-  }
+    onSubmit,
+    setFieldValue,
+    getError,
+    resetForm
+  };
 }
