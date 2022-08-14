@@ -9,14 +9,22 @@ import {
   Grid,
 } from "@mui/material";
 import { useAddressForm } from "../hooks/useAddressForm";
+import { IAddressesResponse } from "../shared/types";
 import SearchBox from "./SearchBox";
 
 interface IAddressModalProps {
   open: boolean;
   setOpenModal: (m: boolean) => void;
   onSearch: any;
-  options: string[];
+  options: IAddressesResponse[];
   loading: boolean;
+  openSearch: boolean;
+  setOpenSearch: (m: boolean) => void;
+  getOptionLabel: (o: IAddressesResponse) => string;
+  isOptionEqualToValue: (
+    o: IAddressesResponse,
+    v: IAddressesResponse
+  ) => boolean;
 }
 
 const AddressModal = ({
@@ -25,6 +33,10 @@ const AddressModal = ({
   onSearch,
   options,
   loading,
+  openSearch,
+  setOpenSearch,
+  getOptionLabel,
+  isOptionEqualToValue,
 }: IAddressModalProps) => {
   const handleClose = () => {
     setOpenModal(false);
@@ -47,12 +59,10 @@ const AddressModal = ({
     onSubmit();
   };
 
-  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    handleChange(e);
-    onSearch(e.target.value);
+  const onSearchChange = (value: string) => {
+    handleChange(value);
+    onSearch(value);
   };
-  console.log(options);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -132,15 +142,20 @@ const AddressModal = ({
             />
           </Grid>
           <Grid item xs={12}>
+            {/* @ts-ignore */}
             <SearchBox
-              onChange={onSearchChange}
-              setFieldValue={() => setFieldValue("country", "ghana")}
+              searchFxn={onSearchChange}
+              changeFxn={setFieldValue}
               options={options}
               label="Country"
               inputName="country"
               loading={loading}
               required
               getError={getError}
+              open={openSearch}
+              setOpen={setOpenSearch}
+              getOptionLabel={getOptionLabel}
+              isOptionEqualToValue={isOptionEqualToValue}
             />
           </Grid>
         </Grid>

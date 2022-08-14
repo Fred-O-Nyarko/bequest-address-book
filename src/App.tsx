@@ -1,59 +1,35 @@
-import { Box, Container, debounce } from "@mui/material";
-import axios from "axios";
-import React, { useCallback } from "react";
+import { Box, Container, List } from "@mui/material";
 import {
+  AddressListItem,
   AddressModal,
   EmptyState,
   FloatingActionButton,
   Loader,
   SearchBox,
 } from "./components";
+import { useServices } from "./hooks/useServices";
 
 const App = () => {
-  const [addresses, setAddresses] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [options, setOptions] = React.useState([]);
+  const {
+    addresses,
+    loading,
+    getAddressByPostcode,
+    getAddressOptionLabel,
+    addAddressToList,
+    deleteAdressFromList,
+    getCountries,
+    getCountryOptionLabel,
+    isAddressOptionEqualtToValue,
+    isCountryOptionEqualtToValue,
+    openModal,
+    setOpenModal,
+    options,
+    postCode,
+    setOpenSearch,
+    openSearch,
+    addressList,
+  } = useServices();
 
-  const fetchData = (value: string) => {
-    setLoading(true);
-    axios
-      .get(
-        `https://api.getAddress.io/find/${value}?api-key=5LOTLJcma065xnWNvF4Bbg36195`
-      )
-      .then((res) => {
-        console.log(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  };
-
-  const onInputChange = useCallback(debounce(fetchData, 1000), []);
-
-  const getCounties = (value: React.ChangeEvent<Element>) => {
-    setLoading(true);
-    axios
-      .post(
-        `https://api.getAddress.io/typeahead/${value}?api-key=5LOTLJcma065xnWNvF4Bbg36195`,
-        {
-          search: ["country"],
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        setLoading(false);
-        setOptions(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  };
-
-  console.log(addresses);
   return (
     <Container
       style={{
@@ -63,18 +39,34 @@ const App = () => {
         flexDirection: "column",
         position: "relative",
         height: "100vh",
+        overflow: "hidden",
       }}
       maxWidth="sm"
     >
       <SearchBox
         options={addresses}
         loading={loading}
-        onChange={() => console.log("here")}
+        searchFxn={getAddressByPostcode}
         label={loading ? "Loading..." : "Search Address"}
+        changeFxn={addAddressToList}
+        open={openSearch}
+        setOpen={setOpenSearch}
+        getOptionLabel={getAddressOptionLabel}
+        isOptionEqualToValue={isAddressOptionEqualtToValue}
       />
-      <Box marginTop={8}>
+      <Box marginTop={8} overflow="auto">
         {loading ? (
           <Loader size="4rem" />
+        ) : addressList?.length > 0 ? (
+          <List>
+            {addressList?.map((address) => (
+              <AddressListItem
+                address={address}
+                onDelete={deleteAdressFromList}
+                postCode={postCode}
+              />
+            ))}
+          </List>
         ) : (
           <EmptyState message="It's kinda lonely here 😢" />
         )}
@@ -83,9 +75,14 @@ const App = () => {
         <AddressModal
           open={openModal}
           setOpenModal={setOpenModal}
-          onSearch={getCounties}
+          onSearch={getCountries}
           options={options}
           loading={loading}
+          openSearch={openSearch}
+          setOpenSearch={setOpenSearch}
+          // @ts-ignore
+          getOptionLabel={getCountryOptionLabel}
+          isOptionEqualToValue={isCountryOptionEqualtToValue}
         />
       )}
       <FloatingActionButton onClick={() => setOpenModal(true)} />
