@@ -8,7 +8,7 @@ export const useServices = () => {
     {} as IPostcodeLookupResponse
   );
 
-  const [addressList, setAddressList] = useState<IAddressesResponse[]>([]);
+  const [addressList, setAddressList] = useState<Partial<IAddressesResponse>[]>([]);
   const [options, setOptions] = useState<IAddressesResponse[]>([]);
   const [postCode, setPostCode] = useState<string>("");
 
@@ -59,14 +59,14 @@ export const useServices = () => {
   }
 
   const addAddressToList = useCallback(
-    (address: IAddressesResponse) => {
+    (address: Partial<IAddressesResponse>) => {
       setAddressList([...addressList, address]);
     },
     [addressList]
   );
 
   const deleteAdressFromList = useCallback(
-    (address: IAddressesResponse) => {
+    (address: Partial<IAddressesResponse>) => {
       setAddressList(addressList.filter((item) => item !== address));
     },
     [addressList]

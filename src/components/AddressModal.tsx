@@ -9,6 +9,7 @@ import {
   Grid,
 } from "@mui/material";
 import { FormikState, FormikErrors } from "formik";
+import { initialValues } from "../hooks/useAddressForm";
 import { IAddressesResponse, IFormValues } from "../shared/types";
 import SearchBox from "./SearchBox";
 
@@ -20,19 +21,22 @@ interface IAddressModalProps {
   loading: boolean;
   openSearch: boolean;
   setOpenSearch: (m: boolean) => void;
-  getOptionLabel: (o: IAddressesResponse|string) => string;
+  getOptionLabel: (o: IAddressesResponse | string) => string;
   isOptionEqualToValue: (
     o: IAddressesResponse,
     v: IAddressesResponse
   ) => boolean;
   handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-    onSubmit: () => void;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    setFieldValue: (name: string, value: any) => void;
-    resetForm:  (nextState?: Partial<FormikState<IFormValues>> | undefined) => void;
-    getError: (name: string) => string;
-    errors: FormikErrors<IFormValues>;
-
+  onSubmit: () => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setFieldValue: (name: string, value: any) => void;
+  resetForm: (
+    nextState?: Partial<FormikState<IFormValues>> | undefined
+  ) => void;
+  getError: (name: string) => string;
+  errors: FormikErrors<IFormValues>;
+  addAddressToList: (a: Partial<IAddressesResponse>) => void;
+  values: IFormValues;
 }
 
 const AddressModal = ({
@@ -46,27 +50,38 @@ const AddressModal = ({
   getOptionLabel,
   isOptionEqualToValue,
   handleBlur,
-    onSubmit,
-    handleChange,
-    setFieldValue,
-    resetForm,
-    getError,
-    errors,
-    
+  onSubmit,
+  handleChange,
+  setFieldValue,
+  resetForm,
+  getError,
+  errors,
+    addAddressToList,
+    values,
 }: IAddressModalProps) => {
   const handleClose = () => {
     setOpenModal(false);
   };
 
-
-
   const onAdd = () => {
-    if (errors) return;
+      console.log(JSON.stringify(errors) === JSON.stringify(initialValues));
+    if (!(JSON.stringify(errors) === '{}')) return;
+    
     resetForm();
     setOpenModal(false);
+    addAddressToList({
+        line_1: values.lineOne,
+        line_2: values.lineTwo ?? "",
+        line_3: values.lineThree ?? "",
+        country: values.country,
+    });
     onSubmit();
   };
 
+  const onCancel = () => {
+    resetForm();
+    setOpenModal(false);
+  };
   const onSearchChange = (value: string) => {
     handleChange(value as unknown as React.ChangeEvent<HTMLInputElement>);
     onSearch(value);
@@ -150,7 +165,6 @@ const AddressModal = ({
             />
           </Grid>
           <Grid item xs={12}>
-           
             <SearchBox
               searchFxn={onSearchChange}
               changeFxn={setFieldValue}
@@ -170,7 +184,7 @@ const AddressModal = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpenModal(false)}>Cancel</Button>
+        <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={onAdd}>Add</Button>
       </DialogActions>
     </Dialog>

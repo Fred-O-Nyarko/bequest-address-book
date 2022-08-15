@@ -11,8 +11,8 @@ import { deepOrange } from "@mui/material/colors";
 import { IAddressesResponse } from "../shared/types";
 
 interface IAddressListItemProps {
-    address: IAddressesResponse;
-    onDelete: (address: IAddressesResponse) => void;
+    address: Partial<IAddressesResponse>;
+    onDelete: (address: Partial<IAddressesResponse>) => void;
     postCode: string;
 }
 const AddressListItem = ({ onDelete, address, postCode }: IAddressListItemProps) => {

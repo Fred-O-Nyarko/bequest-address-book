@@ -7,7 +7,6 @@ import {
   Loader,
   SearchBox,
 } from "./components";
-import {} from "./hooks/useAddressForm";
 
 import { useServices, useAddressForm } from "./hooks";
 
@@ -40,7 +39,11 @@ const App = () => {
     getError,
     resetForm,
     errors,
+    values,
   } = useAddressForm();
+
+  console.log(values);
+  
 
   return (
     <Container
@@ -101,6 +104,8 @@ const App = () => {
           getError={getError}
           errors={errors}
           resetForm={resetForm}
+          addAddressToList={addAddressToList}
+          values={values}
         />
       )}
       <FloatingActionButton onClick={() => setOpenModal(true)} />
