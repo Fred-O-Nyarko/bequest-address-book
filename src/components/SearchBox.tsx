@@ -41,13 +41,10 @@ const SearchBox = ({
   getOptionLabel,
   isOptionEqualToValue,
 }: ISearchBoxProps) => {
-  // @ts-ignore
-  const [inputValue, setInputValue] = React.useState("");
-
-  // const onSearchChange = useCallback(debounce(searchFxn, DEBOUNCE_RATE), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onSearchChange = useCallback(
     debounce((e) => searchFxn(e.target.value), DEBOUNCE_RATE),
-    []
+    [searchFxn]
   );
 
   return (
@@ -65,21 +62,13 @@ const SearchBox = ({
       isOptionEqualToValue={isOptionEqualToValue}
       sx={{ width: "100%" }}
       loading={loading}
-      // onInputChange={(event, newInputValue) => {
-      //   setInputValue(newInputValue);
-      // }}
-
-      // onChange={(e, value) => {
-      //   setFieldValue && setFieldValue(inputName, value);
-      // }}
-
       onChange={(_: any, newValue: IAddressesResponse | null) => {
         newValue && changeFxn(newValue);
+        setFieldValue && setFieldValue(inputName, newValue);
       }}
       filterOptions={(x) => x}
       includeInputInList
       filterSelectedOptions
-      // value={value}
       renderInput={(params) => (
         <TextField
           {...params}

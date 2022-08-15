@@ -8,8 +8,8 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { useAddressForm } from "../hooks/useAddressForm";
-import { IAddressesResponse } from "../shared/types";
+import { FormikState, FormikErrors } from "formik";
+import { IAddressesResponse, IFormValues } from "../shared/types";
 import SearchBox from "./SearchBox";
 
 interface IAddressModalProps {
@@ -20,11 +20,19 @@ interface IAddressModalProps {
   loading: boolean;
   openSearch: boolean;
   setOpenSearch: (m: boolean) => void;
-  getOptionLabel: (o: IAddressesResponse) => string;
+  getOptionLabel: (o: IAddressesResponse|string) => string;
   isOptionEqualToValue: (
     o: IAddressesResponse,
     v: IAddressesResponse
   ) => boolean;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+    onSubmit: () => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    setFieldValue: (name: string, value: any) => void;
+    resetForm:  (nextState?: Partial<FormikState<IFormValues>> | undefined) => void;
+    getError: (name: string) => string;
+    errors: FormikErrors<IFormValues>;
+
 }
 
 const AddressModal = ({
@@ -37,20 +45,20 @@ const AddressModal = ({
   setOpenSearch,
   getOptionLabel,
   isOptionEqualToValue,
+  handleBlur,
+    onSubmit,
+    handleChange,
+    setFieldValue,
+    resetForm,
+    getError,
+    errors,
+    
 }: IAddressModalProps) => {
   const handleClose = () => {
     setOpenModal(false);
   };
 
-  const {
-    handleBlur,
-    handleChange,
-    onSubmit,
-    setFieldValue,
-    getError,
-    resetForm,
-    errors,
-  } = useAddressForm();
+
 
   const onAdd = () => {
     if (errors) return;
@@ -60,7 +68,7 @@ const AddressModal = ({
   };
 
   const onSearchChange = (value: string) => {
-    handleChange(value);
+    handleChange(value as unknown as React.ChangeEvent<HTMLInputElement>);
     onSearch(value);
   };
 
@@ -142,13 +150,14 @@ const AddressModal = ({
             />
           </Grid>
           <Grid item xs={12}>
-            {/* @ts-ignore */}
+           
             <SearchBox
               searchFxn={onSearchChange}
               changeFxn={setFieldValue}
               options={options}
               label="Country"
               inputName="country"
+              setFieldValue={setFieldValue}
               loading={loading}
               required
               getError={getError}

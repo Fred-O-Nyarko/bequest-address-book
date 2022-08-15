@@ -79,7 +79,7 @@ export const useServices = () => {
   );
 
   const getCountryOptionLabel = useCallback(
-    (option: IAddressesResponse["country"]) => option,
+    (option: any) => option,
     []
   );
 

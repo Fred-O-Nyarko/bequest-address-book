@@ -7,7 +7,9 @@ import {
   Loader,
   SearchBox,
 } from "./components";
-import { useServices } from "./hooks/useServices";
+import {} from "./hooks/useAddressForm";
+
+import { useServices, useAddressForm } from "./hooks";
 
 const App = () => {
   const {
@@ -29,6 +31,16 @@ const App = () => {
     openSearch,
     addressList,
   } = useServices();
+
+  const {
+    handleBlur,
+    handleChange,
+    onSubmit,
+    setFieldValue,
+    getError,
+    resetForm,
+    errors,
+  } = useAddressForm();
 
   return (
     <Container
@@ -80,9 +92,15 @@ const App = () => {
           loading={loading}
           openSearch={openSearch}
           setOpenSearch={setOpenSearch}
-          // @ts-ignore
           getOptionLabel={getCountryOptionLabel}
           isOptionEqualToValue={isCountryOptionEqualtToValue}
+          handleBlur={handleBlur}
+          handleChange={handleChange}
+          onSubmit={onSubmit}
+          setFieldValue={setFieldValue}
+          getError={getError}
+          errors={errors}
+          resetForm={resetForm}
         />
       )}
       <FloatingActionButton onClick={() => setOpenModal(true)} />
