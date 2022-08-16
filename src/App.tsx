@@ -6,6 +6,7 @@ import {
   FloatingActionButton,
   SearchBox,
   Notification,
+  AddressDetail,
 } from "./components";
 
 import { useServices, useAddressForm } from "./hooks";
@@ -32,7 +33,8 @@ const App = () => {
     notificationMessage,
     notificationType,
     postCodeLookupResults,
-    setAddressDetail
+    setAddressDetail,
+    addressDetail,
   } = useServices();
 
   const {
@@ -87,13 +89,10 @@ const App = () => {
                 key={address.lineOne.split(" ").join("-")}
                 address={address}
                 onDelete={deleteAdressFromList}
-                onClick={
-                  () => {
-                    setOpenModal('detail-form');
-                    setAddressDetail(address);
-                  }
-
-                }
+                onClick={() => {
+                  setOpenModal("detail-form");
+                  setAddressDetail(address);
+                }}
               />
             ))}
           </List>
@@ -101,7 +100,7 @@ const App = () => {
           <EmptyState message="It's kinda lonely here 😢" />
         )}
       </Box>
-      {openModal  === 'mutate-form' && (
+      {openModal === "mutate-form" && (
         <AddressModal
           open={openModal}
           setOpenModal={setOpenModal}
@@ -123,7 +122,14 @@ const App = () => {
           values={values}
         />
       )}
-      <FloatingActionButton onClick={() => setOpenModal('mutate-form')} />
+      {openModal === "detail-form" && (
+        <AddressDetail
+          addressDetail={addressDetail}
+          open={openModal}
+          setOpenModal={setOpenModal}
+        />
+      )}
+      <FloatingActionButton onClick={() => setOpenModal("mutate-form")} />
       <Notification
         setOpen={setShowNotification}
         open={showNotification}
