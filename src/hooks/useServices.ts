@@ -72,13 +72,19 @@ export const useServices = () => {
       let timer = setTimeout(() => {
         setShowNotification(false);
         setNotificationMessage("");
-      }, 6000);
+      }, 6500);
       return () => clearTimeout(timer);
     }
   }, [showNotification]);
 
   const addAddressToList = useCallback(
     (address: IAddress) => {
+        if(address.country === "") {
+            setNotificationMessage("Please select a country");
+            setNotificationType("error");
+            setShowNotification(true);
+            return;
+        } 
       setAddressList([...addressList, address]);
       setShowNotification(true);
       setNotificationType("success");

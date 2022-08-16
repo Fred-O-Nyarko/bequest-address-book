@@ -43,7 +43,7 @@ const AddressListItem = ({
       <ListItemButton role={undefined} onClick={onClick} dense>
         <ListItemAvatar>
           <Avatar sx={{ bgcolor: deepOrange[500] }}>
-            {postCode.slice(-2)}
+            {postCode.slice(0,2)}
           </Avatar>
         </ListItemAvatar>
         <ListItemText

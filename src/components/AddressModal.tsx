@@ -9,7 +9,6 @@ import {
   Grid,
 } from "@mui/material";
 import { FormikState, FormikErrors } from "formik";
-import { initialValues } from "../hooks/useAddressForm";
 import {  IAddress, TModalID } from "../shared/types";
 import SearchBox from "./SearchBox";
 
@@ -64,7 +63,6 @@ const AddressModal = ({
   };
 
   const onAdd = () => {
-      console.log(JSON.stringify(errors) === JSON.stringify(initialValues));
     if (!(JSON.stringify(errors) === '{}')) return;
     
     resetForm();
@@ -162,7 +160,6 @@ const AddressModal = ({
           <Grid item xs={12}>
             <SearchBox
               searchFxn={onSearchChange}
-              changeFxn={setFieldValue}
               options={countries}
               label="Country"
               inputName="country"

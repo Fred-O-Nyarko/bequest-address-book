@@ -10,20 +10,17 @@ import { DEBOUNCE_RATE } from "../shared/constants";
 interface ISearchBoxProps<T> {
   options: T[];
   loading?: boolean;
-  searchFxn: any;
-  changeFxn: any;
-  setFieldValue?: any;
-  getError?: (key: string) => any;
+  searchFxn: (search: string) => void;
+  changeFxn?: (option: T) => void;
+  setFieldValue?: (name: string, value: any) => void;
+  getError?: (key: string) => string;
   label: string;
   inputName?: string;
   required?: boolean;
   open: boolean;
   setOpen: (open: boolean) => void;
   getOptionLabel?: (option: T) => string;
-  isOptionEqualToValue?: (
-    option: T,
-    value: T
-  ) => boolean;
+  isOptionEqualToValue?: (option: T, value: T) => boolean;
 }
 const SearchBox = <T extends unknown>({
   options,
@@ -33,7 +30,7 @@ const SearchBox = <T extends unknown>({
   inputName = "",
   setFieldValue,
   changeFxn,
-  getError = () => {},
+  getError = () => "",
   required = false,
   open,
   setOpen,
@@ -62,7 +59,7 @@ const SearchBox = <T extends unknown>({
       sx={{ width: "100%" }}
       loading={loading}
       onChange={(_: any, newValue: T | null) => {
-        newValue && changeFxn(newValue);
+        newValue && changeFxn && changeFxn(newValue);
         setFieldValue && setFieldValue(inputName, newValue);
       }}
       filterOptions={(x) => x}
@@ -76,6 +73,7 @@ const SearchBox = <T extends unknown>({
           onChange={onSearchChange}
           required={required}
           error={getError(inputName) ? true : false}
+          helperText={getError(inputName)}
           InputProps={{
             ...params.InputProps,
             endAdornment: (

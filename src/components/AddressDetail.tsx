@@ -84,7 +84,7 @@ const AddressDetail = ({
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpenModal(null)}>Okay</Button>
+        <Button onClick={() => setOpenModal(null)}>Close</Button>
       </DialogActions>
     </Dialog>
   );
