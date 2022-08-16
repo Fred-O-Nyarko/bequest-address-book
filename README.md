@@ -18,7 +18,7 @@ To run the app in the development mode.
 Because this is a very simple app, I avoided the use of any other state management methods like `context` or `redux`. I simply used native react hooks and a few custom hooks I wrote.
 
 **Folder Tree**
-
+```
 bequest-address-book
 ├── README.md
 ├── package.json
@@ -65,7 +65,7 @@ bequest-address-book
 ├── tree.md
 ├── tsconfig.json
 └── yarn.lock
-
+```
 
 ## TODO
 - [ ] Write unit tests for custom hooks
