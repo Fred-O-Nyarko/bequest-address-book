@@ -1,4 +1,4 @@
-import { Box, Container, List } from "@mui/material";
+import { Box, Container, List, useMediaQuery } from "@mui/material";
 import {
   AddressListItem,
   AddressModal,
@@ -46,12 +46,12 @@ const App = () => {
     values,
   } = useAddressForm();
 
-  console.log(addressList);
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   return (
     <Container
       style={{
-        padding: "4rem",
+        padding: isSmallScreen ? "2rem" : "4rem",
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
@@ -72,7 +72,14 @@ const App = () => {
         getOptionLabel={getAddressOptionLabel}
         isOptionEqualToValue={isAddressOptionEqualtToValue}
       />
-      <Box marginTop={8} overflow="auto">
+      <Box
+        marginTop={3}
+        width="100%"
+        style={{
+          overflowX: "hidden",
+          overflowY: "auto",
+        }}
+      >
         {loading ? (
           <Loader size="4rem" />
         ) : addressList?.length > 0 ? (

@@ -15,7 +15,7 @@ interface IAddressListItemProps {
     onDelete: (address: IAddress) => void;
 }
 const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
-    const {postCode} = address || {};
+    const {postCode, lineOne, lineTwo, lineThree, country, town} = address || {};
   return (
     <ListItem
       alignItems="flex-start"
@@ -34,7 +34,7 @@ const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
         <Avatar sx={{ bgcolor: deepOrange[500] }}>{postCode.slice(-2)}</Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary="Brunch this weekend?"
+        primary={lineOne}
         primaryTypographyProps={{
             fontWeight: 600,
         }}
@@ -49,7 +49,7 @@ const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
             >
               Ali Connors
             </Typography>
-            {" — I'll be in your neighborhood doing errands this…"}
+            {" — ${}"}
           </>
         }
       />
