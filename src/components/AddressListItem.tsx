@@ -11,21 +11,26 @@ import { deepOrange } from "@mui/material/colors";
 import { IAddress } from "../shared/types";
 
 interface IAddressListItemProps {
-    address: IAddress;
-    onDelete: (address: IAddress) => void;
+  address: IAddress;
+  onDelete: (address: IAddress) => void;
 }
 const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
-    const {postCode, lineOne, lineTwo, lineThree, country, town} = address || {};
+  const { postCode, lineOne, lineTwo, lineThree, country, town } =
+    address || {};
   return (
     <ListItem
       alignItems="flex-start"
       divider
       style={{
         backgroundColor: "#f6f5ea",
-        borderRadius: "0.2rem"
+        borderRadius: "0.2rem",
       }}
       secondaryAction={
-        <IconButton edge="end" aria-label="delete" onClick={() => onDelete(address)}>
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={() => onDelete(address)}
+        >
           <Delete />
         </IconButton>
       }
@@ -36,7 +41,7 @@ const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
       <ListItemText
         primary={lineOne}
         primaryTypographyProps={{
-            fontWeight: 600,
+          fontWeight: 600,
         }}
         secondary={
           <>

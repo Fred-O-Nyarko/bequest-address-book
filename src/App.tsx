@@ -80,12 +80,11 @@ const App = () => {
           overflowY: "auto",
         }}
       >
-        {loading ? (
-          <Loader size="4rem" />
-        ) : addressList?.length > 0 ? (
+        {addressList?.length > 0 ? (
           <List>
             {addressList?.map((address) => (
               <AddressListItem
+                key={address.lineOne.split(" ").join("-")}
                 address={address}
                 onDelete={deleteAdressFromList}
               />
