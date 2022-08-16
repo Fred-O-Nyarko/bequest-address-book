@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 import { FormikState, FormikErrors } from "formik";
 import { initialValues } from "../hooks/useAddressForm";
-import {  IAddress } from "../shared/types";
+import {  IAddress, TModalID } from "../shared/types";
 import SearchBox from "./SearchBox";
 
 interface IAddressModalProps {
-  open: boolean;
-  setOpenModal: (m: boolean) => void;
+  open: TModalID;
+  setOpenModal: (m: TModalID) => void;
   onSearch: any;
   countries: string[];
   loading: boolean;
@@ -60,7 +60,7 @@ const AddressModal = ({
     values,
 }: IAddressModalProps) => {
   const handleClose = () => {
-    setOpenModal(false);
+    setOpenModal(null);
   };
 
   const onAdd = () => {
@@ -68,14 +68,14 @@ const AddressModal = ({
     if (!(JSON.stringify(errors) === '{}')) return;
     
     resetForm();
-    setOpenModal(false);
+    setOpenModal(null);
     addAddressToList(values);
     onSubmit();
   };
 
   const onCancel = () => {
     resetForm();
-    setOpenModal(false);
+    setOpenModal(null);
   };
   const onSearchChange = (value: string) => {
     handleChange(value as unknown as React.ChangeEvent<HTMLInputElement>);
@@ -83,7 +83,7 @@ const AddressModal = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={!!open} onClose={handleClose}>
       <DialogTitle>Add Address</DialogTitle>
       <DialogContent>
         <DialogContentText>

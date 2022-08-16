@@ -6,6 +6,7 @@ import {
   ListItemText,
   Typography,
   IconButton,
+  ListItemButton,
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import { IAddress } from "../shared/types";
@@ -13,10 +14,14 @@ import { IAddress } from "../shared/types";
 interface IAddressListItemProps {
   address: IAddress;
   onDelete: (address: IAddress) => void;
+  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
-const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
-  const { postCode, lineOne, lineTwo, lineThree, country, town } =
-    address || {};
+const AddressListItem = ({
+  onDelete,
+  address,
+  onClick,
+}: IAddressListItemProps) => {
+  const { postCode, lineOne, country, town } = address || {};
   return (
     <ListItem
       alignItems="flex-start"
@@ -35,29 +40,31 @@ const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
         </IconButton>
       }
     >
-      <ListItemAvatar>
-        <Avatar sx={{ bgcolor: deepOrange[500] }}>{postCode.slice(-2)}</Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={lineOne}
-        primaryTypographyProps={{
-          fontWeight: 600,
-        }}
-        secondary={
-          <>
-            <Typography
-              sx={{ display: "inline" }}
-              component="span"
-              variant="body2"
-              color="text.primary"
-              fontWeight={600}
-            >
-              Ali Connors
-            </Typography>
-            {" — ${}"}
-          </>
-        }
-      />
+      <ListItemButton role={undefined} onClick={onClick} dense>
+        <ListItemAvatar>
+          <Avatar sx={{ bgcolor: deepOrange[500] }}>
+            {postCode.slice(-2)}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={lineOne}
+          primaryTypographyProps={{
+            fontWeight: 600,
+          }}
+          secondary={
+            <>
+              <Typography
+                sx={{ display: "inline" }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                {town}, {country}
+              </Typography>
+            </>
+          }
+        />
+      </ListItemButton>
     </ListItem>
   );
 };

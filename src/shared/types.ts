@@ -32,3 +32,4 @@ export interface IAddressesResponse {
     country: string;
 }
 
+export type TModalID = "mutate-form" | "detail-form" | null;

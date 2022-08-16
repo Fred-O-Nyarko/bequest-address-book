@@ -1,3 +1,4 @@
+import { TModalID } from './../shared/types';
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { addressLookupSerializer } from "../serializers/addressLookup";
@@ -11,9 +12,10 @@ export const useServices = () => {
 
   const [addressList, setAddressList] = useState<IAddress[]>([]);
   const [countries, setCountries] = useState<string[]>([]);
+  const [addressDetail, setAddressDetail] = useState<IAddress | null>(null);
 
   const [loading, setLoading] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<TModalID>(null);
   const [openSearch, setOpenSearch] = useState(false);
 
   const [showNotification, setShowNotification] = useState(false);
@@ -136,5 +138,7 @@ export const useServices = () => {
     setShowNotification,
     notificationMessage,
     notificationType,
+    addressDetail,
+    setAddressDetail,
   };
 };

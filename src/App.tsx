@@ -4,7 +4,6 @@ import {
   AddressModal,
   EmptyState,
   FloatingActionButton,
-  Loader,
   SearchBox,
   Notification,
 } from "./components";
@@ -33,6 +32,7 @@ const App = () => {
     notificationMessage,
     notificationType,
     postCodeLookupResults,
+    setAddressDetail
   } = useServices();
 
   const {
@@ -65,7 +65,7 @@ const App = () => {
         options={postCodeLookupResults}
         loading={loading}
         searchFxn={getAddressByPostcode}
-        label={loading ? "Loading..." : "Search Address"}
+        label={loading ? "Loading..." : "Search address with postcode"}
         changeFxn={addAddressToList}
         open={openSearch}
         setOpen={setOpenSearch}
@@ -87,6 +87,13 @@ const App = () => {
                 key={address.lineOne.split(" ").join("-")}
                 address={address}
                 onDelete={deleteAdressFromList}
+                onClick={
+                  () => {
+                    setOpenModal('detail-form');
+                    setAddressDetail(address);
+                  }
+
+                }
               />
             ))}
           </List>
@@ -94,7 +101,7 @@ const App = () => {
           <EmptyState message="It's kinda lonely here 😢" />
         )}
       </Box>
-      {openModal && (
+      {openModal  === 'mutate-form' && (
         <AddressModal
           open={openModal}
           setOpenModal={setOpenModal}
@@ -116,7 +123,7 @@ const App = () => {
           values={values}
         />
       )}
-      <FloatingActionButton onClick={() => setOpenModal(true)} />
+      <FloatingActionButton onClick={() => setOpenModal('mutate-form')} />
       <Notification
         setOpen={setShowNotification}
         open={showNotification}
