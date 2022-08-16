@@ -1,12 +1,13 @@
-export interface IFormValues {
+export interface IAddress {
     lineOne: string;
     lineTwo?: string;
     lineThree?: string;
     postCode: string;
     country: string;
+    town: string;
   }
   
-  export interface IPostcodeLookupResponse{
+  export interface IAddressLookupResponse{
     postcode: string;
     latitude: number;
     longitude: number;
@@ -30,3 +31,4 @@ export interface IAddressesResponse {
     district: string;
     country: string;
 }
+

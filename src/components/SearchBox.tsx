@@ -6,10 +6,9 @@ import {
 } from "@mui/material";
 import React, { useCallback } from "react";
 import { DEBOUNCE_RATE } from "../shared/constants";
-import { IAddressesResponse } from "../shared/types";
 
-interface ISearchBoxProps {
-  options: IAddressesResponse[];
+interface ISearchBoxProps<T> {
+  options: T[];
   loading?: boolean;
   searchFxn: any;
   changeFxn: any;
@@ -20,13 +19,13 @@ interface ISearchBoxProps {
   required?: boolean;
   open: boolean;
   setOpen: (open: boolean) => void;
-  getOptionLabel?: (option: IAddressesResponse) => string;
+  getOptionLabel?: (option: T) => string;
   isOptionEqualToValue?: (
-    option: IAddressesResponse,
-    value: IAddressesResponse
+    option: T,
+    value: T
   ) => boolean;
 }
-const SearchBox = ({
+const SearchBox = <T extends unknown>({
   options,
   loading,
   searchFxn,
@@ -40,7 +39,7 @@ const SearchBox = ({
   setOpen,
   getOptionLabel,
   isOptionEqualToValue,
-}: ISearchBoxProps) => {
+}: ISearchBoxProps<T>) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onSearchChange = useCallback(
     debounce((e) => searchFxn(e.target.value), DEBOUNCE_RATE),
@@ -57,12 +56,12 @@ const SearchBox = ({
       onClose={() => {
         setOpen(false);
       }}
-      options={options ?? []}
+      options={(options ?? []) as T[]}
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}
       sx={{ width: "100%" }}
       loading={loading}
-      onChange={(_: any, newValue: IAddressesResponse | null) => {
+      onChange={(_: any, newValue: T | null) => {
         newValue && changeFxn(newValue);
         setFieldValue && setFieldValue(inputName, newValue);
       }}

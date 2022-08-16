@@ -10,40 +10,40 @@ import {
 } from "@mui/material";
 import { FormikState, FormikErrors } from "formik";
 import { initialValues } from "../hooks/useAddressForm";
-import { IAddressesResponse, IFormValues } from "../shared/types";
+import {  IAddress } from "../shared/types";
 import SearchBox from "./SearchBox";
 
 interface IAddressModalProps {
   open: boolean;
   setOpenModal: (m: boolean) => void;
   onSearch: any;
-  options: IAddressesResponse[];
+  countries: string[];
   loading: boolean;
   openSearch: boolean;
   setOpenSearch: (m: boolean) => void;
-  getOptionLabel: (o: IAddressesResponse | string) => string;
+  getOptionLabel: (o: string) => string;
   isOptionEqualToValue: (
-    o: IAddressesResponse,
-    v: IAddressesResponse
+    o: string,
+    v: string
   ) => boolean;
   handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFieldValue: (name: string, value: any) => void;
   resetForm: (
-    nextState?: Partial<FormikState<IFormValues>> | undefined
+    nextState?: Partial<FormikState<IAddress>> | undefined
   ) => void;
   getError: (name: string) => string;
-  errors: FormikErrors<IFormValues>;
-  addAddressToList: (a: Partial<IAddressesResponse>) => void;
-  values: IFormValues;
+  errors: FormikErrors<IAddress>;
+  addAddressToList: (a: IAddress) => void;
+  values: IAddress;
 }
 
 const AddressModal = ({
   open,
   setOpenModal,
   onSearch,
-  options,
+  countries,
   loading,
   openSearch,
   setOpenSearch,
@@ -69,12 +69,7 @@ const AddressModal = ({
     
     resetForm();
     setOpenModal(false);
-    addAddressToList({
-        line_1: values.lineOne,
-        line_2: values.lineTwo ?? "",
-        line_3: values.lineThree ?? "",
-        country: values.country,
-    });
+    addAddressToList(values);
     onSubmit();
   };
 
@@ -168,7 +163,7 @@ const AddressModal = ({
             <SearchBox
               searchFxn={onSearchChange}
               changeFxn={setFieldValue}
-              options={options}
+              options={countries}
               label="Country"
               inputName="country"
               setFieldValue={setFieldValue}

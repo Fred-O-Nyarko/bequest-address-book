@@ -13,7 +13,6 @@ import { useServices, useAddressForm } from "./hooks";
 
 const App = () => {
   const {
-    addresses,
     loading,
     getAddressByPostcode,
     getAddressOptionLabel,
@@ -25,8 +24,7 @@ const App = () => {
     isCountryOptionEqualtToValue,
     openModal,
     setOpenModal,
-    options,
-    postCode,
+    countries,
     setOpenSearch,
     openSearch,
     addressList,
@@ -34,6 +32,7 @@ const App = () => {
     setShowNotification,
     notificationMessage,
     notificationType,
+    postCodeLookupResults,
   } = useServices();
 
   const {
@@ -63,7 +62,7 @@ const App = () => {
       maxWidth="sm"
     >
       <SearchBox
-        options={addresses}
+        options={postCodeLookupResults}
         loading={loading}
         searchFxn={getAddressByPostcode}
         label={loading ? "Loading..." : "Search Address"}
@@ -82,7 +81,6 @@ const App = () => {
               <AddressListItem
                 address={address}
                 onDelete={deleteAdressFromList}
-                postCode={postCode}
               />
             ))}
           </List>
@@ -95,7 +93,7 @@ const App = () => {
           open={openModal}
           setOpenModal={setOpenModal}
           onSearch={getCountries}
-          options={options}
+          countries={countries}
           loading={loading}
           openSearch={openSearch}
           setOpenSearch={setOpenSearch}

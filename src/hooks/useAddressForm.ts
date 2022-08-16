@@ -1,13 +1,14 @@
 import * as yup from "yup";
 import { getIn, useFormik } from "formik";
-import { IFormValues } from "../shared/types";
+import { IAddress } from "../shared/types";
 
-export const initialValues: IFormValues = {
+export const initialValues: IAddress = {
   lineOne: "",
   lineTwo: "",
   lineThree: "",
   postCode: "",
   country: "",
+  town: "",
 };
 
 export function useAddressForm() {
@@ -20,7 +21,7 @@ export function useAddressForm() {
     country: yup.string().required("Country is required"),
   });
 
-  const form = useFormik<IFormValues>({
+  const form = useFormik<IAddress>({
     initialValues: initialValues,
     validationSchema,
     onSubmit: onSubmit,

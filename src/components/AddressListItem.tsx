@@ -8,15 +8,14 @@ import {
   IconButton,
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
-import { IAddressesResponse } from "../shared/types";
+import { IAddress } from "../shared/types";
 
 interface IAddressListItemProps {
-    address: Partial<IAddressesResponse>;
-    onDelete: (address: Partial<IAddressesResponse>) => void;
-    postCode: string;
+    address: IAddress;
+    onDelete: (address: IAddress) => void;
 }
-const AddressListItem = ({ onDelete, address, postCode }: IAddressListItemProps) => {
-    
+const AddressListItem = ({ onDelete, address }: IAddressListItemProps) => {
+    const {postCode} = address || {};
   return (
     <ListItem
       alignItems="flex-start"
