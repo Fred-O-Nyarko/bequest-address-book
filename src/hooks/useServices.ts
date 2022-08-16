@@ -8,13 +8,21 @@ export const useServices = () => {
     {} as IPostcodeLookupResponse
   );
 
-  const [addressList, setAddressList] = useState<Partial<IAddressesResponse>[]>([]);
+  const [addressList, setAddressList] = useState<Partial<IAddressesResponse>[]>(
+    []
+  );
   const [options, setOptions] = useState<IAddressesResponse[]>([]);
   const [postCode, setPostCode] = useState<string>("");
 
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState<
+    "error" | "success"
+  >();
 
   const { addresses } = apiResponse ?? {};
 
@@ -36,7 +44,9 @@ export const useServices = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        setShowNotification(true);
+        setNotificationType("error");
+        setNotificationMessage(err.response.data.Message ?? "Error");
         setLoading(false);
       });
   }
@@ -48,19 +58,34 @@ export const useServices = () => {
         search: ["country"],
       })
       .then((res) => {
-        console.log(res.data);
         setLoading(false);
         setOptions(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        setShowNotification(true);
+        setNotificationType("error");
+        setNotificationMessage(err.response.data.Message ?? "Error");
         setLoading(false);
       });
   }
 
+  useEffect(() => {
+    setPostCode("");
+    if (showNotification) {
+      let timer = setTimeout(() => {
+        setShowNotification(false);
+        setNotificationMessage("");
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [showNotification]);
+
   const addAddressToList = useCallback(
     (address: Partial<IAddressesResponse>) => {
       setAddressList([...addressList, address]);
+      setShowNotification(true);
+      setNotificationType("success");
+      setNotificationMessage("Address added to list!");
     },
     [addressList]
   );
@@ -68,20 +93,24 @@ export const useServices = () => {
   const deleteAdressFromList = useCallback(
     (address: Partial<IAddressesResponse>) => {
       setAddressList(addressList.filter((item) => item !== address));
+      setShowNotification(true);
+      setNotificationType("success");
+      setNotificationMessage("Address removed from list!");
     },
     [addressList]
   );
 
   const getAddressOptionLabel = useCallback(
-    (option: IAddressesResponse) =>
-      option.formatted_address.filter(Boolean).join(", "),
-    []
+    (option: IAddressesResponse) => {
+      const { line_1, line_2, line_3, town_or_city, country } = option;
+      return [line_1, line_2, line_3, postCode, town_or_city, country]
+        .filter(Boolean)
+        .join(", ");
+    },
+    [postCode]
   );
 
-  const getCountryOptionLabel = useCallback(
-    (option: any) => option,
-    []
-  );
+  const getCountryOptionLabel = useCallback((option: any) => option, []);
 
   const isAddressOptionEqualtToValue = useCallback(
     (option: IAddressesResponse, value: IAddressesResponse) => {
@@ -115,5 +144,9 @@ export const useServices = () => {
     isCountryOptionEqualtToValue,
     openSearch,
     addressList,
+    showNotification,
+    setShowNotification,
+    notificationMessage,
+    notificationType,
   };
 };

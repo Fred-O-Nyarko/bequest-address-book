@@ -6,6 +6,7 @@ import {
   FloatingActionButton,
   Loader,
   SearchBox,
+  Notification,
 } from "./components";
 
 import { useServices, useAddressForm } from "./hooks";
@@ -29,6 +30,10 @@ const App = () => {
     setOpenSearch,
     openSearch,
     addressList,
+    showNotification,
+    setShowNotification,
+    notificationMessage,
+    notificationType,
   } = useServices();
 
   const {
@@ -42,8 +47,7 @@ const App = () => {
     values,
   } = useAddressForm();
 
-  console.log(values);
-  
+  console.log(addressList);
 
   return (
     <Container
@@ -109,6 +113,12 @@ const App = () => {
         />
       )}
       <FloatingActionButton onClick={() => setOpenModal(true)} />
+      <Notification
+        setOpen={setShowNotification}
+        open={showNotification}
+        severity={notificationType}
+        message={notificationMessage}
+      />
     </Container>
   );
 };
