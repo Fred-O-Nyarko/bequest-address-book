@@ -38,7 +38,7 @@ bequest-address-book
 │   ├── components
 │   │   ├── AddressDetail.tsx
 │   │   ├── AddressListItem.tsx
-│   │   ├── AddressModal.tsx
+│   │   ├── AddAddress.tsx
 │   │   ├── EmptyState.tsx
 │   │   ├── FloatingActionButton.tsx
 │   │   ├── Loader.tsx

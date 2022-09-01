@@ -1,13 +1,9 @@
-import { Box, Container, List, useMediaQuery } from "@mui/material";
+import { Container, useMediaQuery } from "@mui/material";
 import {
-  AddressListItem,
-  AddressModal,
-  EmptyState,
   FloatingActionButton,
   SearchBox,
   Notification,
-  AddressDetail,
-} from "./components";
+} from "@components/.";
 
 import { useServices } from "./hooks";
 
@@ -17,23 +13,15 @@ const App = () => {
     getAddressByPostcode,
     getAddressOptionLabel,
     addAddressToList,
-    deleteAdressFromList,
-    getCountries,
-    getCountryOptionLabel,
     isAddressOptionEqualtToValue,
-    isCountryOptionEqualtToValue,
-    openModal,
     setOpenModal,
     setOpenSearch,
     openSearch,
-    addressList,
     showNotification,
     setShowNotification,
     notificationMessage,
     notificationType,
     postCodeLookupResults,
-    setAddressDetail,
-    addressDetail,
   } = useServices();
 
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -62,48 +50,8 @@ const App = () => {
         getOptionLabel={getAddressOptionLabel}
         isOptionEqualToValue={isAddressOptionEqualtToValue}
       />
-      <Box
-        marginTop={3}
-        width="100%"
-        style={{
-          overflowX: "hidden",
-          overflowY: "auto",
-        }}
-      >
-        {addressList?.length > 0 ? (
-          <List>
-            {addressList?.map((address) => (
-              <AddressListItem
-                key={address.lineOne.split(" ").join("-")}
-                address={address}
-                onDelete={deleteAdressFromList}
-                onClick={() => {
-                  setOpenModal("detail-form");
-                  setAddressDetail(address);
-                }}
-              />
-            ))}
-          </List>
-        ) : (
-          <EmptyState message="It's kinda lonely here 😢" />
-        )}
-      </Box>
-      {openModal === "mutate-form" && (
-        <AddressModal
-          open={openModal}
-          setOpenModal={setOpenModal}
-          getOptionLabel={getCountryOptionLabel}
-          isOptionEqualToValue={isCountryOptionEqualtToValue}
-          addAddressToList={addAddressToList}
-        />
-      )}
-      {openModal === "detail-form" && (
-        <AddressDetail
-          addressDetail={addressDetail}
-          open={openModal}
-          setOpenModal={setOpenModal}
-        />
-      )}
+
+
       <FloatingActionButton onClick={() => setOpenModal("mutate-form")} />
       <Notification
         setOpen={setShowNotification}

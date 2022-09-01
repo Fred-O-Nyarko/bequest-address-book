@@ -5,6 +5,7 @@ export interface IAddress {
   postCode: string;
   country: string;
   town: string;
+  id: string;
 }
 
 export interface IAddressLookupResponse {

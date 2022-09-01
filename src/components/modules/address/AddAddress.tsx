@@ -8,28 +8,22 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useAddressForm, useDebounce } from "../hooks";
-import { useGetCountriesQuery } from "../services";
-import { DEBOUNCE_RATE } from "../shared";
-import { IAddress, TModalID } from "../shared/types";
-import SearchBox from "./SearchBox";
+import { useCallback, useEffect, useState } from "react";
+import { useAddressForm, useDebounce } from "@hooks/.";
+import { addAddress, useAppDispatch } from "@redux/.";
+import { useGetCountriesQuery } from "@services/.";
+import { DEBOUNCE_RATE, IAddress, TModalID } from "@shared/.";
+import { SearchBox } from "@components/.";
 
-interface IAddressModalProps {
+interface IAddAddressProps {
   open: TModalID;
   setOpenModal: (m: TModalID) => void;
-  getOptionLabel: (o: string) => string;
-  isOptionEqualToValue: (o: string, v: string) => boolean;
-  addAddressToList: (a: IAddress) => void;
 }
 
-const AddressModal = ({
+const AddAddress = ({
   open,
   setOpenModal,
-  getOptionLabel,
-  isOptionEqualToValue,
-  addAddressToList,
-}: IAddressModalProps) => {
+}: IAddAddressProps) => {
   const {
     handleBlur,
     handleChange,
@@ -41,16 +35,17 @@ const AddressModal = ({
     values,
   } = useAddressForm();
 
+  const dispatch = useAppDispatch();
+
   const handleClose = () => {
     setOpenModal(null);
   };
 
   const onAdd = () => {
     if (!(JSON.stringify(errors) === "{}")) return;
-
     resetForm();
     setOpenModal(null);
-    addAddressToList(values);
+    dispatch(addAddress(values));
     onSubmit();
   };
 
@@ -81,6 +76,15 @@ const AddressModal = ({
       // todo: reset search query
     }
   }, [openSearch]);
+
+  const getOptionLabel = useCallback((option: string) => option, []);
+
+  const isOptionEqualToValue = useCallback(
+    (option: string, value: string) => {
+      return option === value;
+    },
+    []
+  );
 
   return (
     <Dialog open={!!open} onClose={handleClose}>
@@ -185,4 +189,4 @@ const AddressModal = ({
   );
 };
 
-export default AddressModal;
+export default AddAddress;

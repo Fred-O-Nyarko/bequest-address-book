@@ -9,7 +9,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { IAddress, TModalID } from "../shared/types";
+import { IAddress, TModalID } from "../../../shared/types";
 
 interface IAddressDetailProps {
   open: TModalID;

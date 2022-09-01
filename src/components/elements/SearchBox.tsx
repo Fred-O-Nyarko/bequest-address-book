@@ -5,7 +5,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useCallback } from "react";
-import { DEBOUNCE_RATE } from "../shared/constants";
+import { DEBOUNCE_RATE } from "../../shared/constants";
 
 interface ISearchBoxProps<T> {
   options: T[];

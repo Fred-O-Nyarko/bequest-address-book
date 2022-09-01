@@ -107,7 +107,6 @@ export const useServices = () => {
     return Object.values(option).filter(Boolean).join(", ");
   }, []);
 
-  const getCountryOptionLabel = useCallback((option: string) => option, []);
 
   const isAddressOptionEqualtToValue = useCallback(
     (option: IAddress, value: IAddress) => {
@@ -116,12 +115,7 @@ export const useServices = () => {
     []
   );
 
-  const isCountryOptionEqualtToValue = useCallback(
-    (option: string, value: string) => {
-      return option === value;
-    },
-    []
-  );
+
 
   return {
     countries,
@@ -134,9 +128,7 @@ export const useServices = () => {
     addAddressToList,
     deleteAdressFromList,
     getAddressOptionLabel,
-    getCountryOptionLabel,
     isAddressOptionEqualtToValue,
-    isCountryOptionEqualtToValue,
     openSearch,
     addressList,
     postCodeLookupResults,
