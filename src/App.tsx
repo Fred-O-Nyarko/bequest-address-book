@@ -1,3 +1,6 @@
+import { Provider } from "react-redux";
+import { store } from "./redux";
+
 import { Box, Container, List, useMediaQuery } from "@mui/material";
 import {
   AddressListItem,
@@ -51,92 +54,94 @@ const App = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   return (
-    <Container
-      style={{
-        padding: isSmallScreen ? "2rem" : "4rem",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        position: "relative",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-      maxWidth="sm"
-    >
-      <SearchBox
-        options={postCodeLookupResults}
-        loading={loading}
-        searchFxn={getAddressByPostcode}
-        label={loading ? "Loading..." : "Search address with postcode"}
-        changeFxn={addAddressToList}
-        open={openSearch}
-        setOpen={setOpenSearch}
-        getOptionLabel={getAddressOptionLabel}
-        isOptionEqualToValue={isAddressOptionEqualtToValue}
-      />
-      <Box
-        marginTop={3}
-        width="100%"
+    <Provider store={store}>
+      <Container
         style={{
-          overflowX: "hidden",
-          overflowY: "auto",
+          padding: isSmallScreen ? "2rem" : "4rem",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          position: "relative",
+          height: "100vh",
+          overflow: "hidden",
         }}
+        maxWidth="sm"
       >
-        {addressList?.length > 0 ? (
-          <List>
-            {addressList?.map((address) => (
-              <AddressListItem
-                key={address.lineOne.split(" ").join("-")}
-                address={address}
-                onDelete={deleteAdressFromList}
-                onClick={() => {
-                  setOpenModal("detail-form");
-                  setAddressDetail(address);
-                }}
-              />
-            ))}
-          </List>
-        ) : (
-          <EmptyState message="It's kinda lonely here 😢" />
-        )}
-      </Box>
-      {openModal === "mutate-form" && (
-        <AddressModal
-          open={openModal}
-          setOpenModal={setOpenModal}
-          onSearch={getCountries}
-          countries={countries}
+        <SearchBox
+          options={postCodeLookupResults}
           loading={loading}
-          openSearch={openSearch}
-          setOpenSearch={setOpenSearch}
-          getOptionLabel={getCountryOptionLabel}
-          isOptionEqualToValue={isCountryOptionEqualtToValue}
-          handleBlur={handleBlur}
-          handleChange={handleChange}
-          onSubmit={onSubmit}
-          setFieldValue={setFieldValue}
-          getError={getError}
-          errors={errors}
-          resetForm={resetForm}
-          addAddressToList={addAddressToList}
-          values={values}
+          searchFxn={getAddressByPostcode}
+          label={loading ? "Loading..." : "Search address with postcode"}
+          changeFxn={addAddressToList}
+          open={openSearch}
+          setOpen={setOpenSearch}
+          getOptionLabel={getAddressOptionLabel}
+          isOptionEqualToValue={isAddressOptionEqualtToValue}
         />
-      )}
-      {openModal === "detail-form" && (
-        <AddressDetail
-          addressDetail={addressDetail}
-          open={openModal}
-          setOpenModal={setOpenModal}
+        <Box
+          marginTop={3}
+          width="100%"
+          style={{
+            overflowX: "hidden",
+            overflowY: "auto",
+          }}
+        >
+          {addressList?.length > 0 ? (
+            <List>
+              {addressList?.map((address) => (
+                <AddressListItem
+                  key={address.lineOne.split(" ").join("-")}
+                  address={address}
+                  onDelete={deleteAdressFromList}
+                  onClick={() => {
+                    setOpenModal("detail-form");
+                    setAddressDetail(address);
+                  }}
+                />
+              ))}
+            </List>
+          ) : (
+            <EmptyState message="It's kinda lonely here 😢" />
+          )}
+        </Box>
+        {openModal === "mutate-form" && (
+          <AddressModal
+            open={openModal}
+            setOpenModal={setOpenModal}
+            onSearch={getCountries}
+            countries={countries}
+            loading={loading}
+            openSearch={openSearch}
+            setOpenSearch={setOpenSearch}
+            getOptionLabel={getCountryOptionLabel}
+            isOptionEqualToValue={isCountryOptionEqualtToValue}
+            handleBlur={handleBlur}
+            handleChange={handleChange}
+            onSubmit={onSubmit}
+            setFieldValue={setFieldValue}
+            getError={getError}
+            errors={errors}
+            resetForm={resetForm}
+            addAddressToList={addAddressToList}
+            values={values}
+          />
+        )}
+        {openModal === "detail-form" && (
+          <AddressDetail
+            addressDetail={addressDetail}
+            open={openModal}
+            setOpenModal={setOpenModal}
+          />
+        )}
+        <FloatingActionButton onClick={() => setOpenModal("mutate-form")} />
+        <Notification
+          setOpen={setShowNotification}
+          open={showNotification}
+          severity={notificationType}
+          message={notificationMessage}
         />
-      )}
-      <FloatingActionButton onClick={() => setOpenModal("mutate-form")} />
-      <Notification
-        setOpen={setShowNotification}
-        open={showNotification}
-        severity={notificationType}
-        message={notificationMessage}
-      />
-    </Container>
+      </Container>
+    </Provider>
   );
 };
 
