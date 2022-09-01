@@ -8,63 +8,46 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { FormikState, FormikErrors } from "formik";
-import {  IAddress, TModalID } from "../shared/types";
+import { useEffect, useState } from "react";
+import { useAddressForm, useDebounce } from "../hooks";
+import { useGetCountriesQuery } from "../services";
+import { DEBOUNCE_RATE } from "../shared";
+import { IAddress, TModalID } from "../shared/types";
 import SearchBox from "./SearchBox";
 
 interface IAddressModalProps {
   open: TModalID;
   setOpenModal: (m: TModalID) => void;
-  onSearch: any;
-  countries: string[];
-  loading: boolean;
-  openSearch: boolean;
-  setOpenSearch: (m: boolean) => void;
   getOptionLabel: (o: string) => string;
-  isOptionEqualToValue: (
-    o: string,
-    v: string
-  ) => boolean;
-  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onSubmit: () => void;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setFieldValue: (name: string, value: any) => void;
-  resetForm: (
-    nextState?: Partial<FormikState<IAddress>> | undefined
-  ) => void;
-  getError: (name: string) => string;
-  errors: FormikErrors<IAddress>;
+  isOptionEqualToValue: (o: string, v: string) => boolean;
   addAddressToList: (a: IAddress) => void;
-  values: IAddress;
 }
 
 const AddressModal = ({
   open,
   setOpenModal,
-  onSearch,
-  countries,
-  loading,
-  openSearch,
-  setOpenSearch,
   getOptionLabel,
   isOptionEqualToValue,
-  handleBlur,
-  onSubmit,
-  handleChange,
-  setFieldValue,
-  resetForm,
-  getError,
-  errors,
-    addAddressToList,
-    values,
+  addAddressToList,
 }: IAddressModalProps) => {
+  const {
+    handleBlur,
+    handleChange,
+    onSubmit,
+    setFieldValue,
+    getError,
+    resetForm,
+    errors,
+    values,
+  } = useAddressForm();
+
   const handleClose = () => {
     setOpenModal(null);
   };
 
   const onAdd = () => {
-    if (!(JSON.stringify(errors) === '{}')) return;
-    
+    if (!(JSON.stringify(errors) === "{}")) return;
+
     resetForm();
     setOpenModal(null);
     addAddressToList(values);
@@ -75,10 +58,29 @@ const AddressModal = ({
     resetForm();
     setOpenModal(null);
   };
+  const [searchQuery, setSearchQuery] = useState("");
+  const [openSearch, setOpenSearch] = useState(false);
+  const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_RATE);
+
+  const {
+    data: countries,
+    isFetching: loading,
+    isError: error,
+  } = useGetCountriesQuery(debouncedSearchQuery, {
+    skip: debouncedSearchQuery === "",
+  });
+
   const onSearchChange = (value: string) => {
     handleChange(value as unknown as React.ChangeEvent<HTMLInputElement>);
-    onSearch(value);
+    setSearchQuery(value);
   };
+  console.log(countries);
+
+  useEffect(() => {
+    if (!openSearch) {
+      // todo: reset search query
+    }
+  }, [openSearch]);
 
   return (
     <Dialog open={!!open} onClose={handleClose}>
@@ -160,7 +162,7 @@ const AddressModal = ({
           <Grid item xs={12}>
             <SearchBox
               searchFxn={onSearchChange}
-              options={countries}
+              options={countries ?? []}
               label="Country"
               inputName="country"
               setFieldValue={setFieldValue}

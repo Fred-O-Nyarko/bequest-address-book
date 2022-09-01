@@ -1,8 +1,8 @@
-import { TModalID } from './../shared/types';
+import { TModalID } from "./../shared/types";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { addressLookupSerializer } from "../serializers/addressLookup";
-import { BASE_URL, API_KEY } from "../shared/constants";
+import { ADDRESS_BASE_URL, API_KEY } from "../shared/constants";
 import { IAddress, IAddressLookupResponse } from "../shared/types";
 
 export const useServices = () => {
@@ -28,7 +28,7 @@ export const useServices = () => {
     setLoading(true);
     axios
       .get<IAddressLookupResponse>(
-        `${BASE_URL}/find/${value}?api-key=${API_KEY}&expand=true&fuzzy=true`
+        `${ADDRESS_BASE_URL}/find/${value}?api-key=${API_KEY}&expand=true&fuzzy=true`
       )
       .then((res) => {
         let serializedData = addressLookupSerializer(res.data);
@@ -46,7 +46,7 @@ export const useServices = () => {
   function getCountries(value: string) {
     setLoading(true);
     axios
-      .post(`${BASE_URL}/typeahead/${value}?api-key=${API_KEY}`, {
+      .post(`${''}/typeahead/${value}?api-key=${API_KEY}`, {
         search: ["country"],
       })
       .then((res) => {
@@ -79,12 +79,12 @@ export const useServices = () => {
 
   const addAddressToList = useCallback(
     (address: IAddress) => {
-        if(address.country === "") {
-            setNotificationMessage("Please select a country");
-            setNotificationType("error");
-            setShowNotification(true);
-            return;
-        } 
+      if (address.country === "") {
+        setNotificationMessage("Please select a country");
+        setNotificationType("error");
+        setShowNotification(true);
+        return;
+      }
       setAddressList([...addressList, address]);
       setShowNotification(true);
       setNotificationType("success");
