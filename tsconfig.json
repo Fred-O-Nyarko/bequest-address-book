@@ -21,19 +21,19 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@components/*": [
+      "components/*": [
         "src/components/*"
       ],
-      "@shared/*": [
+      "shared/*": [
         "src/shared/*"
       ],
-      "@redux/*": [
+      "redux/*": [
         "src/redux/*"
       ],
-      "@hooks/*": [
+      "hooks/*": [
         "src/hooks/*"
       ],
-      "@services/*": [
+      "services/*": [
         "src/services/*"
       ],
     }

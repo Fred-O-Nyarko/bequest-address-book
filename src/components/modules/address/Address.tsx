@@ -1,10 +1,13 @@
 /* eslint-disable react/jsx-no-undef */
-import { IAddress } from "@shared/types";
-import { AddAddress, AddressDetail, AddressList } from "..";
+import { IAddress } from "src/shared";
+import AddAddress from "./AddAddress";
+import AddressDetail from "./AddressDetail";
+import AddressList from "./AddressList";
+
 
 const Address = () => {
     let openModal;
-    const setOpenModal = (modal) => {}
+    const setOpenModal = () => {}
     const addressDetail = {} as IAddress;
   return (
     <>

@@ -3,7 +3,8 @@ import {
   FloatingActionButton,
   SearchBox,
   Notification,
-} from "@components/.";
+  AddressModule,
+} from "src/components";
 
 import { useServices } from "./hooks";
 
@@ -51,7 +52,7 @@ const App = () => {
         isOptionEqualToValue={isAddressOptionEqualtToValue}
       />
 
-
+      <AddressModule />
       <FloatingActionButton onClick={() => setOpenModal("mutate-form")} />
       <Notification
         setOpen={setShowNotification}

@@ -1,15 +1,16 @@
-import { EmptyState } from "@components/.";
+import { EmptyState } from "src/components";
 import { Box, List } from "@mui/material";
 import {
   useAppSelector,
   selectAddressList,
   useAppDispatch,
   removeAddress,
-} from "@redux/.";
+} from "src/redux";
 import AddressListItem from "./components/AddressListItem";
+import { IAddress } from "src/shared";
 
 const AddressList = () => {
-  const addressList = useAppSelector(selectAddressList);
+  const addressList = useAppSelector(selectAddressList) as IAddress[];
   const dispatch = useAppDispatch();
   const deleteAdressFromList = () => dispatch(removeAddress);
 

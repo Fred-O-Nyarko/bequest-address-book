@@ -9,21 +9,18 @@ import {
   Grid,
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import { useAddressForm, useDebounce } from "@hooks/.";
-import { addAddress, useAppDispatch } from "@redux/.";
-import { useGetCountriesQuery } from "@services/.";
-import { DEBOUNCE_RATE, IAddress, TModalID } from "@shared/.";
-import { SearchBox } from "@components/.";
+import { useAddressForm, useDebounce } from "src/hooks";
+import { addAddress, useAppDispatch } from "src/redux";
+import { useGetCountriesQuery } from "src/services";
+import { DEBOUNCE_RATE, TModalID } from "src/shared";
+import { SearchBox } from "src/components";
 
 interface IAddAddressProps {
   open: TModalID;
   setOpenModal: (m: TModalID) => void;
 }
 
-const AddAddress = ({
-  open,
-  setOpenModal,
-}: IAddAddressProps) => {
+const AddAddress = ({ open, setOpenModal }: IAddAddressProps) => {
   const {
     handleBlur,
     handleChange,
@@ -79,12 +76,9 @@ const AddAddress = ({
 
   const getOptionLabel = useCallback((option: string) => option, []);
 
-  const isOptionEqualToValue = useCallback(
-    (option: string, value: string) => {
-      return option === value;
-    },
-    []
-  );
+  const isOptionEqualToValue = useCallback((option: string, value: string) => {
+    return option === value;
+  }, []);
 
   return (
     <Dialog open={!!open} onClose={handleClose}>

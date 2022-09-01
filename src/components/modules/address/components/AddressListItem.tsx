@@ -9,7 +9,7 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
-import { IAddress } from "@shared/.";
+import { IAddress } from "src/shared";
 
 interface IAddressListItemProps {
   address: IAddress;

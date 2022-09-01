@@ -1,4 +1,4 @@
-import { ReactComponent as Empty } from "../assets/empty.svg";
+import { ReactComponent as Empty } from "src/assets/empty.svg";
 const EmptyState = ({ message }: { message: string }) => {
   return (
     <div
