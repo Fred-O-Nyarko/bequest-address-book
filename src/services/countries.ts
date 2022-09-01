@@ -9,7 +9,6 @@ export const countriesApi = createApi({
       query: (value: string) => `${CONTRIES_BASE_URL}/${value}`,
       transformResponse: (response: CountriesResponse[]) => {
         return response.map((country) => country.name.common);
-        
       }
     }),
   }),

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { addressApi, countriesApi } from "../services";
+import { errorMiddleware } from "./middlewares";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,7 @@ const store = configureStore({
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({}).concat([addressApi.middleware, countriesApi.middleware]),
+    getDefaultMiddleware({}).concat([addressApi.middleware, countriesApi.middleware, errorMiddleware]),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
