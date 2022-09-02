@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
 import { useAppSelector, selectModal } from "src/redux";
-import { IAddress } from "src/shared";
 import AddAddress from "./AddAddress";
 import AddressDetail from "./AddressDetail";
 import AddressList from "./AddressList";

@@ -11,6 +11,7 @@ export const countriesApi = createApi({
       query: (value: string) => `${CONTRIES_BASE_URL}/${value}`,
       // adding tag to differentiate between other cache data
       providesTags: ["Country"],
+      // transform response works here as a serializer
       transformResponse: (response: CountriesResponse[]) => {
         return response.map((country) => country.name.common);
       },

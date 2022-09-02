@@ -4,6 +4,7 @@ import {
   SearchBox,
   Notification,
   AddressModule,
+  PostcodeSearchBox,
 } from "src/components";
 
 import { useServices } from "./hooks";
@@ -39,18 +40,7 @@ const App = () => {
       }}
       maxWidth="sm"
     >
-      <SearchBox
-        options={postCodeLookupResults}
-        loading={loading}
-        searchFxn={getAddressByPostcode}
-        label={loading ? "Loading..." : "Search address with postcode"}
-        changeFxn={addAddressToList}
-        open={openSearch}
-        setOpen={setOpenSearch}
-        getOptionLabel={getAddressOptionLabel}
-        isOptionEqualToValue={isAddressOptionEqualtToValue}
-      />
-
+      <PostcodeSearchBox />
       <AddressModule />
       <FloatingActionButton />
       <Notification

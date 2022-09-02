@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-import { addressLookupSerializer } from "../serializers/addressLookup";
 import { ADDRESS_BASE_URL, API_KEY } from "../shared/constants";
 import { IAddress, IAddressLookupResponse } from "../shared/types";
 
@@ -10,8 +9,6 @@ export const useServices = () => {
   >([]);
 
   const [addressList, setAddressList] = useState<IAddress[]>([]);
-  const [countries, setCountries] = useState<string[]>([]);
-  const [addressDetail, setAddressDetail] = useState<IAddress | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
@@ -29,8 +26,8 @@ export const useServices = () => {
         `${ADDRESS_BASE_URL}/find/${value}?api-key=${API_KEY}&expand=true&fuzzy=true`
       )
       .then((res) => {
-        let serializedData = addressLookupSerializer(res.data);
-        setPostCodeLookupResults(serializedData);
+        // let serializedData = addressLookupSerializer(res.data);
+        // setPostCodeLookupResults(serializedData);
         setLoading(false);
       })
       .catch((err) => {
@@ -40,30 +37,6 @@ export const useServices = () => {
         setLoading(false);
       });
   }
-
-  function getCountries(value: string) {
-    setLoading(true);
-    axios
-      .post(`${''}/typeahead/${value}?api-key=${API_KEY}`, {
-        search: ["country"],
-      })
-      .then((res) => {
-        setLoading(false);
-        setCountries(res.data);
-      })
-      .catch((err) => {
-        setShowNotification(true);
-        setNotificationType("error");
-        setNotificationMessage(err.response.data.Message ?? "Error");
-        setLoading(false);
-      });
-  }
-
-  useEffect(() => {
-    if (!openSearch) {
-      setPostCodeLookupResults([]);
-    }
-  }, [openSearch, setCountries]);
 
   useEffect(() => {
     if (showNotification) {
@@ -105,7 +78,6 @@ export const useServices = () => {
     return Object.values(option).filter(Boolean).join(", ");
   }, []);
 
-
   const isAddressOptionEqualtToValue = useCallback(
     (option: IAddress, value: IAddress) => {
       return JSON.stringify(option) === JSON.stringify(value);
@@ -113,14 +85,10 @@ export const useServices = () => {
     []
   );
 
-
-
   return {
-    countries,
     loading,
     setOpenSearch,
     getAddressByPostcode,
-    getCountries,
     addAddressToList,
     deleteAdressFromList,
     getAddressOptionLabel,
@@ -132,7 +100,5 @@ export const useServices = () => {
     setShowNotification,
     notificationMessage,
     notificationType,
-    addressDetail,
-    setAddressDetail,
   };
 };
