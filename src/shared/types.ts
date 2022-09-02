@@ -40,3 +40,14 @@ export type CountriesResponse = {
     common: string;
   };
 };
+
+export type NotificationTypes = "success" | "error" | "info" | "warning";
+export interface INotification {
+  type: NotificationTypes;
+  message: string;
+}
+
+export type SettingsState = {
+  modal: TModalID;
+  notification: INotification | null;
+} ;
