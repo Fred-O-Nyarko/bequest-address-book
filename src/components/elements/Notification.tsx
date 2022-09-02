@@ -1,12 +1,13 @@
 import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import React from "react";
+import {
+  useAppDispatch,
+  useAppSelector,
+  selectNotification,
+  setNotification,
+} from "src/redux";
 
-interface INotificationProps extends AlertProps {
-  setOpen: (open: boolean) => void;
-  open: boolean;
-  message: string;
-}
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
@@ -14,7 +15,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Notification = ({ severity, setOpen, open, message }: INotificationProps) => {
+const Notification = () => {
+  const dispatch = useAppDispatch();
+  const notification = useAppSelector(selectNotification);
+
   const handleClose = (
     event: React.SyntheticEvent<any> | Event,
     reason?: string
@@ -22,13 +26,17 @@ const Notification = ({ severity, setOpen, open, message }: INotificationProps) 
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    dispatch(setNotification(null));
   };
 
   return (
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
-        {message}
+    <Snackbar
+      open={!!notification?.message}
+      autoHideDuration={6000}
+      onClose={handleClose}
+    >
+      <Alert onClose={handleClose} severity={notification?.type} sx={{ width: "100%" }}>
+        {notification?.message}
       </Alert>
     </Snackbar>
   );

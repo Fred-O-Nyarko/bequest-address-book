@@ -1,3 +1,4 @@
+import { setNotification } from '..';
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit";
 
@@ -10,8 +11,11 @@ const rtkQueryErrorLogger: Middleware =
     if (isRejectedWithValue(action)) {
       console.warn("We got a rejected action!");
       //  TODO: dispatch a toast action
+      api.dispatch(setNotification({
+        message: action.error.message,
+        type: "error",
+      }))
     }
-
     return next(action);
   };
 

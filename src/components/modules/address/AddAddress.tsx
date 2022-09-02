@@ -10,7 +10,13 @@ import {
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useAddressForm, useDebounce } from "src/hooks";
-import { addAddress, selectModal, setModal, useAppDispatch, useAppSelector } from "src/redux";
+import {
+  addAddress,
+  selectModal,
+  setModal,
+  useAppDispatch,
+  useAppSelector,
+} from "src/redux";
 import { useGetCountriesQuery } from "src/services";
 import { DEBOUNCE_RATE } from "src/shared";
 import { SearchBox } from "src/components";
@@ -52,7 +58,7 @@ const AddAddress = () => {
 
   const {
     data: countries,
-    isFetching: loading,
+    isLoading: loading,
     isError: error,
   } = useGetCountriesQuery(debouncedSearchQuery, {
     skip: debouncedSearchQuery === "",

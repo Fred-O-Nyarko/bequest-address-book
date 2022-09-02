@@ -1,3 +1,4 @@
+import { AlertColor } from '@mui/material';
 export interface IAddress {
   lineOne: string;
   lineTwo?: string;
@@ -41,7 +42,7 @@ export type CountriesResponse = {
   };
 };
 
-export type NotificationTypes = "success" | "error" | "info" | "warning";
+export type NotificationTypes = AlertColor;
 export interface INotification {
   type: NotificationTypes;
   message: string;
