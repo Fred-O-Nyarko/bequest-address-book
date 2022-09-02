@@ -21,6 +21,7 @@ interface ISearchBoxProps<T> {
   setOpen: (open: boolean) => void;
   getOptionLabel?: (option: T) => string;
   isOptionEqualToValue?: (option: T, value: T) => boolean;
+  onBlur?: (e: React.FocusEvent<any, Element>) => void;
 }
 const SearchBox = <T extends unknown>({
   options,
@@ -36,6 +37,7 @@ const SearchBox = <T extends unknown>({
   setOpen,
   getOptionLabel,
   isOptionEqualToValue,
+  onBlur,
 }: ISearchBoxProps<T>) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onSearchChange = useCallback(
@@ -72,8 +74,9 @@ const SearchBox = <T extends unknown>({
           name={inputName}
           onChange={onSearchChange}
           required={required}
-          error={getError(inputName) ? true : false}
+          error={!!getError(inputName)}
           helperText={getError(inputName)}
+          onBlur={onBlur}
           InputProps={{
             ...params.InputProps,
             endAdornment: (

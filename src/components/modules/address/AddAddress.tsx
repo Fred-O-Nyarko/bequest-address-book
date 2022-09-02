@@ -184,13 +184,35 @@ const AddAddress = () => {
               setOpen={setOpenSearch}
               getOptionLabel={getOptionLabel}
               isOptionEqualToValue={isOptionEqualToValue}
+              onBlur={handleBlur}
             />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onAdd}>Add</Button>
+        <Button
+          onClick={onCancel}
+          variant="outlined"
+          size="large"
+          style={{
+            color: "#ff4c50",
+            borderColor: "#ff4c50",
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={onAdd}
+          variant="contained"
+          color="primary"
+          size="large"
+          style={{
+            backgroundColor: "#ff4c50",
+            width: "7rem",
+          }}
+        >
+          Add
+        </Button>
       </DialogActions>
     </Dialog>
   );
