@@ -13,7 +13,7 @@ import { IAddress } from "src/shared";
 
 interface IAddressListItemProps {
   address: IAddress;
-  onDelete: (address: IAddress) => void;
+  onDelete: (id: string) => void;
   onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 const AddressListItem = ({
@@ -21,7 +21,7 @@ const AddressListItem = ({
   address,
   onClick,
 }: IAddressListItemProps) => {
-  const { postCode, lineOne, country, town } = address || {};
+  const { postCode, lineOne, country, town, id } = address || {};
   return (
     <ListItem
       alignItems="flex-start"
@@ -31,11 +31,7 @@ const AddressListItem = ({
         borderRadius: "0.2rem",
       }}
       secondaryAction={
-        <IconButton
-          edge="end"
-          aria-label="delete"
-          onClick={() => onDelete(address)}
-        >
+        <IconButton edge="end" aria-label="delete" onClick={() => onDelete(id)}>
           <Delete />
         </IconButton>
       }
@@ -43,7 +39,7 @@ const AddressListItem = ({
       <ListItemButton role={undefined} onClick={onClick} dense>
         <ListItemAvatar>
           <Avatar sx={{ bgcolor: deepOrange[500] }}>
-            {postCode.slice(0,2)}
+            {postCode.slice(0, 2)}
           </Avatar>
         </ListItemAvatar>
         <ListItemText

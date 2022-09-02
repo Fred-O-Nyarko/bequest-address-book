@@ -9,10 +9,10 @@ export const addressListSlice = createSlice({
     address: null as IAddress | null,
   },
   reducers: {
-    addAddress: (state, action) => {
+    addAddress: (state, action: PayloadAction<IAddress>) => {
       state.addresses = [...state.addresses, action.payload];
     },
-    removeAddress: (state, action) => {
+    removeAddress: (state, action: PayloadAction<string>) => {
       state.addresses = state.addresses.filter(
         (address) => address.id !== action.payload
       );

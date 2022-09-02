@@ -15,7 +15,7 @@ const AddressList = () => {
   const addressList = useAppSelector(selectAddressList) as IAddress[];
 
   const dispatch = useAppDispatch();
-  const deleteAdressFromList = () => dispatch(removeAddress);
+  const deleteAdressFromList = (id: string) => dispatch(removeAddress(id));
 
   return (
     <Box

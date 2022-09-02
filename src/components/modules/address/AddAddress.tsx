@@ -14,11 +14,12 @@ import {
   addAddress,
   selectModal,
   setModal,
+  setNotification,
   useAppDispatch,
   useAppSelector,
 } from "src/redux";
 import { useGetCountriesQuery } from "src/services";
-import { DEBOUNCE_RATE } from "src/shared";
+import { DEBOUNCE_RATE, randomId } from "src/shared";
 import { SearchBox } from "src/components";
 
 const AddAddress = () => {
@@ -41,10 +42,22 @@ const AddAddress = () => {
   };
 
   const onAdd = () => {
-    if (!(JSON.stringify(errors) === "{}")) return;
+    if (!(JSON.stringify(errors) === "{}"))
+      return dispatch(
+        setNotification({
+          message: "Please fill in all fields",
+          type: "error",
+        })
+      );
     resetForm();
     closeModal();
-    dispatch(addAddress(values));
+    dispatch(
+      addAddress({
+        ...values,
+        // generate a unique random id for the address
+        id: randomId(),
+      })
+    );
     onSubmit();
   };
 

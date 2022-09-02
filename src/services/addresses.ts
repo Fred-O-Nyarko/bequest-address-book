@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ADDRESS_BASE_URL, API_KEY, IAddressLookupResponse } from "src/shared";
+import {
+  ADDRESS_BASE_URL,
+  API_KEY,
+  IAddressLookupResponse,
+  randomId,
+} from "src/shared";
 
 export const addressApi = createApi({
   reducerPath: "api/addresses",
@@ -7,7 +12,8 @@ export const addressApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: ADDRESS_BASE_URL }),
   endpoints: (builder) => ({
     getAddressByPostcode: builder.query({
-      query: (value: string) => `${ADDRESS_BASE_URL}/find/${value}?api-key=${API_KEY}&expand=true&fuzzy=true`,
+      query: (value: string) =>
+        `${ADDRESS_BASE_URL}/find/${value}?api-key=${API_KEY}&expand=true&fuzzy=true`,
       providesTags: ["Address"],
       // transform response works here as a serializer
       transformResponse: (response: IAddressLookupResponse) => {
@@ -19,7 +25,7 @@ export const addressApi = createApi({
           town: address.town_or_city,
           country: address.country,
           // manually construct an id for each address
-          id: address.line_1 + index,
+          id: randomId(),
         }));
       },
     }),
