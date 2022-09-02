@@ -5,12 +5,15 @@ import {
   selectAddressList,
   useAppDispatch,
   removeAddress,
+  setModal,
+  address as setAddress,
 } from "src/redux";
 import AddressListItem from "./components/AddressListItem";
 import { IAddress } from "src/shared";
 
 const AddressList = () => {
   const addressList = useAppSelector(selectAddressList) as IAddress[];
+
   const dispatch = useAppDispatch();
   const deleteAdressFromList = () => dispatch(removeAddress);
 
@@ -25,14 +28,14 @@ const AddressList = () => {
     >
       {addressList?.length > 0 ? (
         <List>
-          {addressList?.map((address) => (
+          {addressList?.map((adress) => (
             <AddressListItem
-              key={address.lineOne.split(" ").join("-")}
-              address={address}
+              key={adress.lineOne.split(" ").join("-")}
+              address={adress}
               onDelete={deleteAdressFromList}
               onClick={() => {
-                // setOpenModal("detail-form");
-                // setAddressDetail(address);
+                dispatch(setModal("detail-form"));
+                dispatch(setAddress(adress));
               }}
             />
           ))}

@@ -10,17 +10,12 @@ import {
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useAddressForm, useDebounce } from "src/hooks";
-import { addAddress, useAppDispatch } from "src/redux";
+import { addAddress, selectModal, setModal, useAppDispatch, useAppSelector } from "src/redux";
 import { useGetCountriesQuery } from "src/services";
-import { DEBOUNCE_RATE, TModalID } from "src/shared";
+import { DEBOUNCE_RATE } from "src/shared";
 import { SearchBox } from "src/components";
 
-interface IAddAddressProps {
-  open: TModalID;
-  setOpenModal: (m: TModalID) => void;
-}
-
-const AddAddress = ({ open, setOpenModal }: IAddAddressProps) => {
+const AddAddress = () => {
   const {
     handleBlur,
     handleChange,
@@ -33,22 +28,23 @@ const AddAddress = ({ open, setOpenModal }: IAddAddressProps) => {
   } = useAddressForm();
 
   const dispatch = useAppDispatch();
+  const modal = useAppSelector(selectModal);
 
-  const handleClose = () => {
-    setOpenModal(null);
+  const closeModal = () => {
+    dispatch(setModal(null));
   };
 
   const onAdd = () => {
     if (!(JSON.stringify(errors) === "{}")) return;
     resetForm();
-    setOpenModal(null);
+    closeModal();
     dispatch(addAddress(values));
     onSubmit();
   };
 
   const onCancel = () => {
     resetForm();
-    setOpenModal(null);
+    closeModal();
   };
   const [searchQuery, setSearchQuery] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
@@ -81,7 +77,7 @@ const AddAddress = ({ open, setOpenModal }: IAddAddressProps) => {
   }, []);
 
   return (
-    <Dialog open={!!open} onClose={handleClose}>
+    <Dialog open={!!modal} onClose={closeModal}>
       <DialogTitle>Add Address</DialogTitle>
       <DialogContent>
         <DialogContentText>

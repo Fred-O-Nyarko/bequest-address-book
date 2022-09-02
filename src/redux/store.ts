@@ -12,7 +12,7 @@ import {
 } from "redux-persist";
 import { addressApi, countriesApi } from "../services";
 import { errorMiddleware } from "./middlewares";
-import { addressListSlice } from "./slices";
+import { addressListSlice, settingsSlice } from "./slices";
 
 const persistConfig = {
   key: "root",
@@ -21,6 +21,7 @@ const persistConfig = {
 };
 export const rootReducers = combineReducers({
   addressList: addressListSlice.reducer,
+  settings: settingsSlice.reducer,
   [addressApi.reducerPath]: addressApi.reducer,
   [countriesApi.reducerPath]: countriesApi.reducer,
 });

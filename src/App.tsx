@@ -15,7 +15,6 @@ const App = () => {
     getAddressOptionLabel,
     addAddressToList,
     isAddressOptionEqualtToValue,
-    setOpenModal,
     setOpenSearch,
     openSearch,
     showNotification,
@@ -53,7 +52,7 @@ const App = () => {
       />
 
       <AddressModule />
-      <FloatingActionButton onClick={() => setOpenModal("mutate-form")} />
+      <FloatingActionButton />
       <Notification
         setOpen={setShowNotification}
         open={showNotification}

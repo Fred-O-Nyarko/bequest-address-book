@@ -1,29 +1,18 @@
 /* eslint-disable react/jsx-no-undef */
+import { useAppSelector, selectModal } from "src/redux";
 import { IAddress } from "src/shared";
 import AddAddress from "./AddAddress";
 import AddressDetail from "./AddressDetail";
 import AddressList from "./AddressList";
 
-
 const Address = () => {
-    let openModal;
-    const setOpenModal = () => {}
-    const addressDetail = {} as IAddress;
+  const modal = useAppSelector(selectModal);
   return (
     <>
-    <AddressList />
-      {openModal === "mutate-form" && (
-        <AddAddress
-          open={openModal}
-          setOpenModal={setOpenModal}
-        />
-      )}
-      {openModal === "detail-form" && (
-        <AddressDetail
-          addressDetail={addressDetail}
-          open={openModal}
-          setOpenModal={setOpenModal}
-        />
+      <AddressList />
+      {modal === "mutate-form" && <AddAddress />}
+      {modal === "detail-form" && (
+        <AddressDetail />
       )}
     </>
   );

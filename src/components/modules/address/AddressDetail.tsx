@@ -9,21 +9,26 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { IAddress, TModalID } from "../../../shared/types";
+import {
+  useAppDispatch,
+  useAppSelector,
+  selectModal,
+  setModal,
+  selectAddress,
+} from "src/redux";
 
-interface IAddressDetailProps {
-  open: TModalID;
-  setOpenModal: (m: TModalID) => void;
-  addressDetail: IAddress | null;
-}
 
-const AddressDetail = ({
-  open,
-  setOpenModal,
-  addressDetail,
-}: IAddressDetailProps) => {
+const AddressDetail = () => {
+  const dispatch = useAppDispatch();
+  const modal = useAppSelector(selectModal);
+  const addressDetail = useAppSelector(selectAddress);
+  
+  const closeModal = () => {
+    dispatch(setModal(null));
+  };
+
   return (
-    <Dialog open={!!open} onClose={() => setOpenModal(null)} fullWidth>
+    <Dialog open={!!modal} onClose={closeModal} fullWidth>
       <DialogTitle>Address Detail</DialogTitle>
       <DialogContent dividers>
         <List>
@@ -42,7 +47,9 @@ const AddressDetail = ({
               primaryTypographyProps={{
                 fontWeight: 600,
               }}
-              secondary={<Typography>{addressDetail?.lineTwo ?? 'N/A'}</Typography>}
+              secondary={
+                <Typography>{addressDetail?.lineTwo ?? "N/A"}</Typography>
+              }
             />
           </ListItem>
           <ListItem>
@@ -51,7 +58,9 @@ const AddressDetail = ({
               primaryTypographyProps={{
                 fontWeight: 600,
               }}
-              secondary={<Typography>{addressDetail?.lineThree ?? 'N/A'}</Typography>}
+              secondary={
+                <Typography>{addressDetail?.lineThree ?? "N/A"}</Typography>
+              }
             />
           </ListItem>
           <ListItem>
@@ -84,7 +93,7 @@ const AddressDetail = ({
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpenModal(null)}>Close</Button>
+        <Button onClick={closeModal}>Close</Button>
       </DialogActions>
     </Dialog>
   );
