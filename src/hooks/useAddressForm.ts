@@ -45,9 +45,7 @@ export function useAddressForm() {
     return _touched && error ? error : undefined;
   }
 
-  function onSubmit() {
-    console.log(values);
-  }
+  function onSubmit() {}
 
   return {
     values,

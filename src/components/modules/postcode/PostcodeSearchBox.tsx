@@ -10,13 +10,10 @@ const PostcodeSearchBox = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const dispatch = useAppDispatch();
   const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_RATE);
-  const {
-    data: postCodeLookupResults,
-    isError,
-    isLoading: loading,
-  } = useGetAddressByPostcodeQuery(debouncedSearchQuery, {
-    skip: debouncedSearchQuery === "",
-  });
+  const { data: postCodeLookupResults, isLoading: loading } =
+    useGetAddressByPostcodeQuery(debouncedSearchQuery, {
+      skip: debouncedSearchQuery === "",
+    });
   const addAddressToList = useCallback(
     (address: IAddress) => {
       dispatch(addAddress(address));

@@ -1,4 +1,4 @@
-import { setNotification } from '..';
+import { setNotification } from "..";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit";
 
@@ -10,11 +10,12 @@ const rtkQueryErrorLogger: Middleware =
     // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
     if (isRejectedWithValue(action)) {
       console.warn("We got a rejected action!");
-      //  TODO: dispatch a toast action
-      api.dispatch(setNotification({
-        message: action.error.message,
-        type: "error",
-      }))
+      api.dispatch(
+        setNotification({
+          message: action.error.message,
+          type: "error",
+        })
+      );
     }
     return next(action);
   };

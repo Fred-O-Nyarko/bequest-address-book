@@ -56,19 +56,17 @@ const AddAddress = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_RATE);
 
-  const {
-    data: countries,
-    isLoading: loading,
-    isError: error,
-  } = useGetCountriesQuery(debouncedSearchQuery, {
-    skip: debouncedSearchQuery === "",
-  });
+  const { data: countries, isLoading: loading } = useGetCountriesQuery(
+    debouncedSearchQuery,
+    {
+      skip: debouncedSearchQuery === "",
+    }
+  );
 
   const onSearchChange = (value: string) => {
     handleChange(value as unknown as React.ChangeEvent<HTMLInputElement>);
     setSearchQuery(value);
   };
-  console.log(countries);
 
   useEffect(() => {
     if (!openSearch) {

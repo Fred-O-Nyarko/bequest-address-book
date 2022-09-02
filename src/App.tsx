@@ -13,7 +13,6 @@ const App = () => {
     <Container
       style={{
         padding: isSmallScreen ? "2rem" : "4rem",
-
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
