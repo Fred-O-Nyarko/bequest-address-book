@@ -10,7 +10,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import { addressApi, countriesApi } from "../services";
+import { addressApi, countriesApi } from "./apis";
 import { addressListSlice, settingsSlice } from "./slices";
 
 const persistConfig = {

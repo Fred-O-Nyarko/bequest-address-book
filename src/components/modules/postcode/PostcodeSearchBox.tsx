@@ -1,7 +1,11 @@
 import { useDebounce } from "src/hooks/useDebounce";
 import { useCallback, useEffect, useState } from "react";
-import { addAddress, setNotification, useAppDispatch } from "src/redux";
-import { useGetAddressByPostcodeQuery } from "src/services/addresses";
+import {
+  addAddress,
+  setNotification,
+  useAppDispatch,
+  useGetAddressByPostcodeQuery,
+} from "src/redux";
 import { DEBOUNCE_RATE, IAddress } from "src/shared";
 import { SearchBox } from "src/components";
 
@@ -24,6 +28,7 @@ const PostcodeSearchBox = () => {
       dispatch(
         setNotification({
           //  @ts-ignore
+          // TODO: fix this type error
           message: error?.data.Message || "Something went wrong",
           type: "error",
         })

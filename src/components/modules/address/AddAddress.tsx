@@ -18,7 +18,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "src/redux";
-import { useGetCountriesQuery } from "src/services";
+import { useGetCountriesQuery } from "src/redux";
 import { DEBOUNCE_RATE, randomId } from "src/shared";
 import { SearchBox } from "src/components";
 
@@ -83,6 +83,7 @@ const AddAddress = () => {
       dispatch(
         setNotification({
           //  @ts-ignore
+          // TODO: fix this type error
           message: error?.data.message || "Something went wrong",
           type: "error",
         })
