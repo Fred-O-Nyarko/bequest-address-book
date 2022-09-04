@@ -11,13 +11,13 @@ import {
   REGISTER,
 } from "redux-persist";
 import { addressApi, countriesApi } from "../services";
-import { errorMiddleware } from "./middlewares";
 import { addressListSlice, settingsSlice } from "./slices";
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ['api/addresses', 'api/countries'],
+  // I decided not to persist the address list and countries list so I blacklisted them
+  blacklist: ["api/addresses", "api/countries"],
 };
 export const rootReducers = combineReducers({
   addressList: addressListSlice.reducer,
@@ -39,11 +39,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat([
-      addressApi.middleware,
-      countriesApi.middleware,
-      errorMiddleware,
-    ]),
+    }).concat([addressApi.middleware, countriesApi.middleware]),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

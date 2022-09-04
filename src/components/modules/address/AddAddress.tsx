@@ -69,12 +69,26 @@ const AddAddress = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_RATE);
 
-  const { data: countries, isLoading: loading } = useGetCountriesQuery(
-    debouncedSearchQuery,
-    {
-      skip: debouncedSearchQuery === "",
+  const {
+    data: countries,
+    isLoading: loading,
+    error,
+    isError,
+  } = useGetCountriesQuery(debouncedSearchQuery, {
+    skip: debouncedSearchQuery === "",
+  });
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(
+        setNotification({
+          //  @ts-ignore
+          message: error?.data.message || "Something went wrong",
+          type: "error",
+        })
+      );
     }
-  );
+  }, [dispatch, error, isError]);
 
   const onSearchChange = (value: string) => {
     handleChange(value as unknown as React.ChangeEvent<HTMLInputElement>);

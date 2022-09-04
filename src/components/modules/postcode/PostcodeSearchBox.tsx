@@ -1,5 +1,5 @@
 import { useDebounce } from "src/hooks/useDebounce";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { addAddress, setNotification, useAppDispatch } from "src/redux";
 import { useGetAddressByPostcodeQuery } from "src/services/addresses";
 import { DEBOUNCE_RATE, IAddress } from "src/shared";
@@ -10,10 +10,26 @@ const PostcodeSearchBox = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const dispatch = useAppDispatch();
   const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_RATE);
-  const { data: postCodeLookupResults, isLoading: loading } =
-    useGetAddressByPostcodeQuery(debouncedSearchQuery, {
-      skip: debouncedSearchQuery === "",
-    });
+  const {
+    data: postCodeLookupResults,
+    isLoading: loading,
+    error,
+    isError,
+  } = useGetAddressByPostcodeQuery(debouncedSearchQuery, {
+    skip: debouncedSearchQuery === "",
+  });
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(
+        setNotification({
+          //  @ts-ignore
+          message: error?.data.Message || "Something went wrong",
+          type: "error",
+        })
+      );
+    }
+  }, [dispatch, error, isError]);
   const addAddressToList = useCallback(
     (address: IAddress) => {
       dispatch(addAddress(address));

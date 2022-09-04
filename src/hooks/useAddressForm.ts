@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { getIn, useFormik } from "formik";
 import { IAddress } from "../shared/types";
+import { setNotification, useAppDispatch } from "src/redux";
 
 export const initialValues: IAddress = {
   id: "",
@@ -28,6 +29,8 @@ export function useAddressForm() {
     onSubmit: onSubmit,
   });
 
+  const dispatch = useAppDispatch();
+
   const {
     values,
     handleBlur,
@@ -45,7 +48,14 @@ export function useAddressForm() {
     return _touched && error ? error : undefined;
   }
 
-  function onSubmit() {}
+  function onSubmit() {
+    dispatch(
+      setNotification({
+        message: "Address added successfully",
+        type: "success",
+      })
+    );
+  }
 
   return {
     values,
