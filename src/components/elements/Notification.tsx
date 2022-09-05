@@ -34,6 +34,7 @@ const Notification = () => {
       open={!!notification?.message}
       autoHideDuration={2000}
       onClose={handleClose}
+      id="notification"
     >
       <Alert
         onClose={handleClose}

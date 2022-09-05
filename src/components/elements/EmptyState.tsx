@@ -18,7 +18,9 @@ const EmptyState = ({ message }: { message: string }) => {
           marginTop: "3rem",
         }}
       />
-      <div className="text-center text-lg">{message}</div>
+      <div className="text-center text-lg" data-testid="empty-message">
+        {message}
+      </div>
     </div>
   );
 };

@@ -6,7 +6,13 @@ const FloatingActionButton = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const dispatch = useAppDispatch();
   return (
-    <Box position="absolute" bottom={32} right={0} marginRight={8}>
+    <Box
+      position="absolute"
+      bottom={32}
+      right={0}
+      marginRight={8}
+      id="floating-action-btn"
+    >
       <Fab
         variant="extended"
         onClick={() => dispatch(setModal("mutate-form"))}

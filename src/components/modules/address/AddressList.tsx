@@ -27,7 +27,7 @@ const AddressList = () => {
       }}
     >
       {addressList?.length > 0 ? (
-        <List>
+        <List id="address-list">
           {addressList?.map((adress) => (
             <AddressListItem
               key={adress.lineOne.split(" ").join("-")}

@@ -70,6 +70,7 @@ const PostcodeSearchBox = () => {
       setOpen={setOpenSearch}
       getOptionLabel={getAddressOptionLabel}
       isOptionEqualToValue={isAddressOptionEqualtToValue}
+      inputName="postcode"
     />
   );
 };

@@ -31,7 +31,12 @@ const AddressListItem = ({
         borderRadius: "0.2rem",
       }}
       secondaryAction={
-        <IconButton edge="end" aria-label="delete" onClick={() => onDelete(id)}>
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={() => onDelete(id)}
+          id={`delete-btn-${postCode.split(" ").join("")}`}
+        >
           <Delete />
         </IconButton>
       }

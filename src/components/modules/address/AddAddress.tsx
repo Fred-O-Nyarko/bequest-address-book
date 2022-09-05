@@ -109,7 +109,7 @@ const AddAddress = () => {
   }, []);
 
   return (
-    <Dialog open={!!modal} onClose={closeModal}>
+    <Dialog open={!!modal} onClose={closeModal} id="address-modal">
       <DialogTitle>Add Address</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -129,6 +129,7 @@ const AddAddress = () => {
               required
               error={!!getError("lineOne")}
               helperText={getError("lineOne")}
+              id="address-line-1"
             />
           </Grid>
           <Grid item xs={12}>
@@ -141,6 +142,7 @@ const AddAddress = () => {
               variant="standard"
               onChange={handleChange}
               onBlur={handleBlur}
+              id="address-line-2"
             />
           </Grid>
           <Grid item xs={12}>
@@ -153,6 +155,7 @@ const AddAddress = () => {
               variant="standard"
               onChange={handleChange}
               onBlur={handleBlur}
+              id="address-line-3"
             />
           </Grid>
           <Grid item xs={12}>
@@ -168,6 +171,7 @@ const AddAddress = () => {
               required
               error={!!getError("town")}
               helperText={getError("town")}
+              id="address-town"
             />
           </Grid>
           <Grid item xs={12}>
@@ -183,6 +187,7 @@ const AddAddress = () => {
               required
               error={!!getError("postCode")}
               helperText={getError("postCode")}
+              id="address-postcode"
             />
           </Grid>
           <Grid item xs={12}>
@@ -225,6 +230,7 @@ const AddAddress = () => {
             backgroundColor: "#ff4c50",
             width: "7rem",
           }}
+          id="add-address-btn"
         >
           Add
         </Button>

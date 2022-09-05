@@ -67,6 +67,7 @@ const SearchBox = <T extends unknown>({
       filterOptions={(x) => x}
       includeInputInList
       filterSelectedOptions
+      id={`${inputName}-search-box`}
       renderInput={(params) => (
         <TextField
           {...params}
