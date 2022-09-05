@@ -26,6 +26,7 @@ The structure is as follows:
 - Api: Contains all the api calls and endpoints using RTK query. It also auto-generated hooks for each endpoint.(very cool feature)
 - Hooks: Which basically extended the existing hooks provided by react-redux.
 - Store: Contains the store and the root reducer + some basic middlewares.
+- Persist: Contains the persistor for persisting the store in local storage.
 
 NB: I decided not to store the api data in redux store, but rather in the cache provided by RTK-query. 
 This is because the data is not used anywhere else in the app. 
