@@ -27,7 +27,9 @@ The structure is as follows:
 - Hooks: Which basically extended the existing hooks provided by react-redux.
 - Store: Contains the store and the root reducer + some basic middlewares.
 
-NB: I decided not to store 
+NB: I decided not to store the api data in redux store, but rather in the cache provided by RTK-query. 
+This is because the data is not used anywhere else in the app. 
+I simply allowed RTK to handle the caching and fetching of data.
 
 **Folder Tree**
 ```
