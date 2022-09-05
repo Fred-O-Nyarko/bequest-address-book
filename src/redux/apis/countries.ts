@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { CONTRIES_BASE_URL, CountriesResponse } from "../shared";
+import { CONTRIES_BASE_URL, CountriesResponse } from "src/shared";
 
 export const countriesApi = createApi({
   reducerPath: "api/countries",
